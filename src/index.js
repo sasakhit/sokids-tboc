@@ -5,28 +5,41 @@ import {
   BrowserRouter as Router,
   Route, Switch
 } from 'react-router-dom'
-import TBOCLogin from './tboc/login'
-import TBOCSignup from './tboc/signup'
-import TBOCHome from './tboc/home'
-import TBOCAdmin from './tboc/admin';
+import Login from './containers/login'
+import Signup from './containers/signup'
+import Home from './containers/home'
+import Admin from './containers/admin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+import loginReducer from './reducers/login'
+import { Provider } from 'react-redux'
+import { ConnectedRouter } from 'react-router-redux'
+import createBrowserHistory from 'history/createBrowserHistory'
+import createStore from './store'
+
+const history = createBrowserHistory()
+//const store = createStore(loginReducer)
+const store = createStore(history);
+
 const App = () => (
-  <Router>
-    <div>
-      <Switch>
-        <Route path='/login' component={TBOCLogin} />
-        <Route path='/signup' component={TBOCSignup} />
-        <Route path='/home' component={TBOCHome} />
-        <Route path="/admin" component={TBOCAdmin}/>
-        <Route component={TBOCLogin} />
-      </Switch>
-    </div>
-  </Router>
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <div>
+        <Switch>
+          <Route path='/login' component={Login} />
+          <Route path='/signup' component={Signup} />
+          <Route path='/home' component={Home} />
+          <Route path="/admin" component={Admin}/>
+          <Route component={Login} />
+        </Switch>
+      </div>
+    </ConnectedRouter>
+  </Provider>
 )
 
 ReactDOM.render(
   <MuiThemeProvider>
     <App />
   </MuiThemeProvider>,
-  document.getElementById('app'))
+  document.getElementById('app')
+)

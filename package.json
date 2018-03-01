@@ -12,15 +12,21 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^6.1.4",
     "express": "^4.15.3",
+    "history": "^4.7.2",
+    "material-ui": "^0.20.0",
+    "mongoose": "^4.11.5",
     "nedb": "^1.8.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-redux": "^5.0.7",
     "react-router-dom": "^4.1.1",
-    "superagent": "^3.5.2",
-    "mongoose": "^4.11.5",
-    "@sendgrid/mail": "^6.1.4",
-    "material-ui": "^0.20.0"
+    "react-router-redux": "^5.0.0-alpha.9",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
+    "superagent": "^3.5.2"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",

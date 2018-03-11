@@ -27,51 +27,8 @@ export default class Home extends Component {
       return
     }
 
-    //this.loadUser()
     this.props.loadUser(window.localStorage.tboc_id)
   }
-
-  /*
-  loadUser () {
-    request
-      .get('/tboc/api/get_user')
-      .query({userid: window.localStorage.tboc_id})
-      .end((err, res) => {
-        console.log(err, res)
-        if (err) return
-        this.setState({
-          userid: res.body.user.userid,
-          passwd: res.body.user.passwd,
-          fullname: res.body.user.fullname,
-          kananame: res.body.user.kananame,
-          phone: res.body.user.phone,
-          postal: res.body.user.postal,
-          address: res.body.user.address,
-          comment: res.body.user.comment,
-          challenges: res.body.user.challenges
-        })
-      })
-  }
-
-  addChallenge () {
-    request
-      .get('/tboc/api/add_challenge')
-      .query({
-        userid: window.localStorage.tboc_id,
-        token: window.localStorage.tboc_auth_token,
-        challenge: this.state.newchallenge
-      })
-      .end((err, res) => {
-        if (err) return
-        if (!res.body.status) {
-          window.alert(res.body.msg)
-          return
-        }
-        this.setState({open: false, tab: 'history'})
-        this.loadUser()
-      })
-  }
-  */
 
   handleOpen () {
     this.props.openCloseDialog(true)
@@ -100,46 +57,12 @@ export default class Home extends Component {
   }
 
   render () {
-    /*
-    if (this.state.jump) {
-      return <Redirect to={this.state.jump} />
-    }
-    */
-
-    /*
-    const changed = (name, e, v = null) => {
-      const new_value = (e !== null) ? e.target.value : v  
-      const new_errortext = (new_value !== '') ? '' : 'This field is required'
-
-      if (this.state.tab === 'new') {
-        this.setState({
-          newchallenge: Object.assign({}, this.state.newchallenge, {
-            [name]: new_value
-          }),
-          errortext: Object.assign({}, this.state.errortext, {
-            [name]: new_errortext
-          })
-        })
-      }
-      else {
-        this.setState({
-          [name]: new_value,
-          errortext: Object.assign({}, this.state.errortext, {
-            [name]: new_errortext
-          })
-        })
-      }
-    }*/
-
     const tabChanged = (value) => {
-      //this.setState({
-      //  tab: value
-      //})
       this.props.changeTab(value)
     }
 
-    const challenges = this.props.challenges.map(challenge =>
-      <TableRow>
+    const challenges = this.props.challenges.map((challenge, index) =>
+      <TableRow key={index}>
         <TableRowColumn>{this.dateFormat(challenge.dateofchallenge)}</TableRowColumn>
         <TableRowColumn>{challenge.nameofchallenge}</TableRowColumn>
         <TableRowColumn>{challenge.paymentmethod}</TableRowColumn>
@@ -161,10 +84,18 @@ export default class Home extends Component {
         onClick={e => this.props.addChallenge(this.props.newchallenge)}
       />,
     ];
-  
 
-    const customColumn20 = {width: '20%'};
-    const customColumn80 = {width: '80%'};
+    const newChallngeDialog = (
+      <Dialog
+        title="New Challenge Confirmation"
+        actions={actions}
+        modal={false}
+        open={this.props.open}
+        onRequestClose={e => this.handleClose()}
+      >
+        Are you ok to add your new challenge?
+      </Dialog>
+    )
 
     return (
       <div>
@@ -178,9 +109,9 @@ export default class Home extends Component {
         >
           <Tab label="New Challenge" value="new">
             <div>
-              <Table><TableBody displayRowCheckbox={false}>
+              <Table height="70vh"><TableBody displayRowCheckbox={false}>
                 <TableRow displayBorder={false}>
-                  <TableRowColumn style={customColumn80}>
+                  <TableRowColumn style={styles.customColumn80}>
                     <p>
                       <b>Name of Challenge:</b>
                     </p>
@@ -219,7 +150,6 @@ export default class Home extends Component {
                     </p>
                     <RadioButtonGroup
                       name="paymentmethod"
-                      //onChange={(e) => changed('paymentmethod', e)}
                       onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
                     >
                       <RadioButton
@@ -273,30 +203,23 @@ export default class Home extends Component {
                       name='comment'
                       fullWidth={true}
                       underlineStyle={styles.underlineStyle}
-                      //onChange={e => changed('comment', e)}
                       onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
                     />
                   </TableRowColumn>
                 </TableRow>
               </TableBody></Table>
 
-              <RaisedButton label="Send" primary={true} onClick={e => this.handleOpen()} />
-              <p style={styles.error}>{this.props.msg}</p>
-              <Dialog
-                title="Dialog With Actions"
-                actions={actions}
-                modal={false}
-                open={this.props.open}
-                onRequestClose={e => this.handleClose()}
-              >
-                Are you ok to add your new challenge?
-              </Dialog>
+              <div style={styles.margin20}>
+                <RaisedButton label="Send" primary={true} onClick={e => this.handleOpen()} />
+                <p style={styles.error}>{this.props.msg}</p>
+              </div>
+              {newChallngeDialog}
             </div>
           </Tab>
           <Tab label="Challenge History" value="history">
             <div>
-              <Table>
-                <TableHeader displaySelectAll={false}>
+              <Table height="70vh">
+                <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                   <TableRow>
                     <TableHeaderColumn>Date</TableHeaderColumn>
                     <TableHeaderColumn>Challenge Name</TableHeaderColumn>
@@ -313,17 +236,16 @@ export default class Home extends Component {
           </Tab>
           <Tab label="Profile" value="profile">
             <div>
-              <Table><TableBody displayRowCheckbox={false}>
+              <Table height="70vh"><TableBody displayRowCheckbox={false}>
                 <TableRow displayBorder={false}>
-                  <TableRowColumn style={customColumn20}>Email (User ID):</TableRowColumn>
-                  <TableRowColumn style={customColumn80}>
+                  <TableRowColumn style={styles.customColumn20}>Email (User ID):</TableRowColumn>
+                  <TableRowColumn style={styles.customColumn80}>
                     <TextField
                       name='userid'
                       value={this.props.userinfo.userid}
                       errorText={this.props.errortext.userid}
                       errorStyle={styles.errorStyle}
                       underlineStyle={styles.underlineStyle}
-                      //onChange={e => changed('userid', e)}
                       onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
                     />
                   </TableRowColumn>
@@ -393,7 +315,6 @@ export default class Home extends Component {
                       errorText={this.props.errortext.postal}
                       errorStyle={styles.errorStyle}
                       underlineStyle={styles.underlineStyle}
-                      //onChange={e => changed('postal', e)}
                       onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
                     />
                   </TableRowColumn>
@@ -408,7 +329,6 @@ export default class Home extends Component {
                       errorStyle={styles.errorStyle}
                       fullWidth={true}
                       underlineStyle={styles.underlineStyle}
-                      //onChange={e => changed('address', e)}
                       onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
                     />
                   </TableRowColumn>

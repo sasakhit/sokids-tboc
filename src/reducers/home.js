@@ -17,7 +17,7 @@ const initialState = {
     dateofchallenge: '',
     paymentmethod: '',
     receipt: '',
-     comment: ''
+    comment: ''
   },
   errortext: {
     userid: '',

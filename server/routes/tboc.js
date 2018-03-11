@@ -89,4 +89,27 @@ router.get('/api/signup', (req, res) => {
     })
   })
 
-module.exports = router;
+  router.get('/api/edit_user_challenge', (req, res) => {
+    const _user = req.query.user
+    const _challenge = req.query.challenge
+    const _keys = req.query.keys
+
+    db.getUser(_user.userid, (user) => {
+      if (_keys.user) _keys.user.forEach(key =>
+        user[key] = _user[key]
+      )
+      if (_keys.challenge) _keys.challenge.forEach(key =>
+        user.challenges.filter(challenge => challenge._id == _challenge._id)[0][key] = _challenge[key]
+      )
+      db.updateUser(user, (err) => {
+        if (err) {
+          res.json({status: false, msg: 'DB Error'})
+          return
+        }
+        res.json({status: true})
+      })
+    })
+
+  })
+
+module.exports = router

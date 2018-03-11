@@ -12,18 +12,6 @@ export const setMsg = ( msg ) => ({
   payload: { msg }
 })
 
-/*
-export const inputData = ( name, value ) => {
-  const errortext_new = (e.target.value !== '') ? '' : 'This field is required'
-  this.setState({
-    [name]: e.target.value,
-    errortext: Object.assign({}, this.state.errortext, {
-      [name]: errortext_new
-    })
-  })
-}
-*/
-
 export const signup = (userinfo) => {
   return dispatch  => {
     request

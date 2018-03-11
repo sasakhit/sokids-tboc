@@ -51,19 +51,6 @@ export const loadUser = (userid) => {
         comment: res.body.user.comment
       }))
       dispatch(setChallenges(res.body.user.challenges))
-      /*
-      this.setState({
-        userid: res.body.user.userid,
-        passwd: res.body.user.passwd,
-        fullname: res.body.user.fullname,
-        kananame: res.body.user.kananame,
-        phone: res.body.user.phone,
-        postal: res.body.user.postal,
-        address: res.body.user.address,
-        comment: res.body.user.comment,
-        challenges: res.body.user.challenges
-      })
-      */
     })
   }
 }

@@ -17,7 +17,6 @@
     "history": "^4.7.2",
     "material-ui": "^0.20.0",
     "mongoose": "^4.11.5",
-    "nedb": "^1.8.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.7",

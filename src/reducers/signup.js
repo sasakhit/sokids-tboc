@@ -23,18 +23,6 @@ const initialState = {
   msg: ''
 }
 
-/*
-export const inputData = ( name, value ) => {
-  const errortext_new = (e.target.value !== '') ? '' : 'This field is required'
-  this.setState({
-    [name]: e.target.value,
-    errortext: Object.assign({}, this.state.errortext, {
-      [name]: errortext_new
-    })
-  })
-}
-*/
-
 export default function signupReducer(state = initialState, action) {
   switch (action.type) {
     case 'INPUT_SIGNUP_DATA':

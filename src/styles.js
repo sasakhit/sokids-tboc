@@ -38,6 +38,21 @@ const styles = {
   },
   clear: {
     clear: 'both'
+  },
+  margin20: {
+    margin: 20
+  },
+  marginRight20: {
+    marginRight: 20
+  },
+  marginLeft20: {
+    marginLeft: 20
+  },
+  customColumn20: {
+    width: '20%'
+  },
+  customColumn80: {
+    width: '80%'
   }
 }
 export default styles

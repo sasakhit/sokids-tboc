@@ -4,7 +4,6 @@ import {Redirect} from 'react-router-dom'
 import styles from '../styles'
 import AppBar from 'material-ui/AppBar';
 import TextField from 'material-ui/TextField';
-import DatePicker from 'material-ui/DatePicker';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import {
@@ -17,67 +16,17 @@ import {
 } from 'material-ui/Table';
 
 export default class Signup extends Component {
-
-  /*
-  signup () {
-    request
-      .get('/tboc/api/signup')
-      .query({
-        userid: this.state.userid,
-        passwd: this.state.passwd,
-        fullname: this.state.fullname,
-        kananame: this.state.kananame,
-        phone: this.state.phone,
-        postal: this.state.postal,
-        address: this.state.address,
-        comment: this.state.comment
-      })
-      .end((err, res) => {
-        if (err) return
-        const r = res.body
-        console.log(r)
-        if (r.status && r.token) {
-          // Save authentication token in localStorage
-          window.localStorage['tboc_id'] = this.state.userid
-          window.localStorage['tboc_auth_token'] = r.token
-          this.setState({jump: '/home'})
-          return
-        }
-        this.setState({msg: r.msg})
-      })
-  }
-  */
-
   render () {
-    /*
-    if (this.state.jump) {
-      return <Redirect to={this.state.jump} />
-    }
-
-    const changed = (name, e) => {
-      const errortext_new = (e.target.value !== '') ? '' : 'This field is required'
-      this.setState({
-        [name]: e.target.value,
-        errortext: Object.assign({}, this.state.errortext, {
-          [name]: errortext_new
-        })
-      })
-    }
-    */
-
-    const customColumn20 = {width: '20%'};
-    const customColumn80 = {width: '80%'};
-
     return (
       <div>
         <AppBar
           title="TBOC - Sign Up"
           iconElementRight={<FlatButton label="Log In" onClick={e => this.props.redirectTo('/login')} />}
         />
-        <Table><TableBody displayRowCheckbox={false}>
+        <Table height="70vh"><TableBody displayRowCheckbox={false}>
           <TableRow displayBorder={false}>
-            <TableRowColumn style={customColumn20}>Email (User ID):</TableRowColumn>
-            <TableRowColumn style={customColumn80}>
+            <TableRowColumn style={styles.customColumn20}>Email (User ID):</TableRowColumn>
+            <TableRowColumn style={styles.customColumn80}>
               <TextField
                 name='userid'
                 hintText='taro.yamada@boc.org'
@@ -177,8 +126,10 @@ export default class Signup extends Component {
           </TableRow>
         </TableBody></Table>
 
-        <RaisedButton label="Sign Up" primary={true} onClick={e => this.props.signup(this.props.userinfo)} />
-        <div style={styles.error}>{this.props.msg}</div>
+        <div style={styles.margin20}>
+          <RaisedButton label="Sign Up" primary={true} onClick={e => this.props.signup(this.props.userinfo)} />
+          <div style={styles.error}>{this.props.msg}</div>
+        </div>
       </div>
     )
   }

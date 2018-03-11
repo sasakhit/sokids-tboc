@@ -13,9 +13,14 @@ const Schema = mongoose.Schema;
 
 const ChallengeSchema = new Schema({
   nameofchallenge: String,
-  dateofchallenge: Date,
+  dateofchallengeChallengeSchema: Date,
   paymentmethod: String,
   receipt: String,
+  receiptdate: Date,
+  receiptmethod: String,
+  deliverydate: Date,
+  deliverymethod: String,
+  collectiondate: Date,
   comment: String
 }, {minimize: false})
 
@@ -58,40 +63,17 @@ function getUser (userid, callback) {
     if (err || user === null) return callback(null)
     callback(user)
   })
-
-  /*
-  User.findOne({userid})
-    .then(user => {
-      if (user === null) return callback(null)
-      callback(user)
-    })
-    .catch(err => {
-      callback(null)
-    });
-  */
 }
 
 function addUser (userid, passwd, fullname, kananame, phone, postal, address, comment, callback) {
   const hash = getHash(passwd)
   const token = getAuthToken(userid)
-  const challenges = {}
 
-  const user = new User({userid, hash, token, fullname, kananame, phone, postal, address, comment, challenges})
+  const user = new User({userid, hash, token, fullname, kananame, phone, postal, address, comment})
   user.save((err) => {
     if (err) return callback(null)
     callback(token)
   })
-
-  /*
-  user
-    .save()
-    .then(() => {
-      callback(token)
-    })
-    .catch(err => {
-      callback(null)
-    });
-  */
 }
 
 function login (userid, passwd, callback) {
@@ -125,25 +107,16 @@ function updateUser (user, callback) {
     if (err) return callback(err, null)
     callback(null)
   })
-
-  /*
-  const userid = user.userid
-  const hash = user.hash
-  const token = user.token
-  const friends = user.friends
-
-  User.findOne({userid})
-    .then(user => {
-      user.hash = hash;
-      user.token = token;
-      user.friends = friends;
-      user.save().then(callback(null));
-    })
-    .catch(err => {
-      callback(err, null)
-    });
-  */
 }
+
+/*
+function updateChallenge (user, challenge, callback) {
+  User.update({userid: user.userid}, user, {}, (err, n) => {
+    if (err) return callback(err, null)
+    callback(null)
+  })
+}
+*/
 
 module.exports = {
   User, connect, getUser, getAllUsers, addUser, login, checkToken, updateUser

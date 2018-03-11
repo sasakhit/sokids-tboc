@@ -18,7 +18,6 @@ import createBrowserHistory from 'history/createBrowserHistory'
 import createStore from './store'
 
 const history = createBrowserHistory()
-//const store = createStore(loginReducer)
 const store = createStore(history);
 
 const App = () => (

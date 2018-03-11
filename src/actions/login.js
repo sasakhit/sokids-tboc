@@ -1,18 +1,6 @@
 import request from 'superagent'
 import { push } from 'react-router-redux'
 
-/*
-export const inputUserid = ( userid ) => ({
-  type: 'INPUT_USERID',
-  payload: { userid }
-})
-
-export const inputPasswd = ( passwd ) => ({
-  type: 'INPUT_PASSWD',
-  payload: { passwd }
-})
-*/
-
 export const inputData = ( key, value ) => ({
   type: 'INPUT_DATA',
   key: key,
@@ -40,11 +28,11 @@ export const login = ( userid, passwd ) => {
           // Save authentication token in localStorage
           window.localStorage['tboc_id'] = userid
           window.localStorage['tboc_auth_token'] = r.token
-          //this.setState({jump: '/home'})
-          dispatch(push('/home'))
+
+          const jump = (userid === 'admin') ? 'admin' : '/home'
+          dispatch(push(jump))
           return
         }
-        //this.setState({msg: r.msg})
         dispatch(setMsg(r.msg))
       })
   }

@@ -12,8 +12,8 @@ function connect() {
 const Schema = mongoose.Schema;
 
 const ChallengeSchema = new Schema({
-  nameofchallenge: String,
-  dateofchallengeChallengeSchema: Date,
+  challengename: String,
+  challengedate: Date,
   paymentmethod: String,
   receipt: String,
   receiptdate: Date,
@@ -28,8 +28,10 @@ const UserSchema = new Schema({
   userid: String,
   hash: String,
   token: String,
-  fullname: String,
-  kananame: String,
+  lastname: String,
+  firstname: String,
+  lastname_kana: String,
+  firstname_kana: String,
   phone: String,
   postal: String,
   address: String,
@@ -65,11 +67,18 @@ function getUser (userid, callback) {
   })
 }
 
-function addUser (userid, passwd, fullname, kananame, phone, postal, address, comment, callback) {
+function getUserById (_id, callback) {
+  User.findOne({_id}, (err, user) => {
+    if (err || user === null) return callback(null)
+    callback(user)
+  })
+}
+
+function addUser (userid, passwd, lastname, firstname, lastname_kana, firstname_kana, phone, postal, address, comment, callback) {
   const hash = getHash(passwd)
   const token = getAuthToken(userid)
 
-  const user = new User({userid, hash, token, fullname, kananame, phone, postal, address, comment})
+  const user = new User({userid, hash, token, lastname, firstname, lastname_kana, firstname_kana, phone, postal, address, comment})
   user.save((err) => {
     if (err) return callback(null)
     callback(token)
@@ -96,28 +105,21 @@ function login (userid, passwd, callback) {
 function checkToken (userid, token, callback) {
   getUser(userid, (user) => {
     if (!user || user.token !== token) {
-      return callback(new Error('Authentication Failure'), null)
+      return callback(new Error('Authentication Error'), null)
     }
     callback(null, user)
   })
 }
 
 function updateUser (user, callback) {
-  User.update({userid: user.userid}, user, {}, (err, n) => {
-    if (err) return callback(err, null)
-    callback(null)
-  })
-}
+  if (user.passwd) user.hash = getHash(user.passwd)
 
-/*
-function updateChallenge (user, challenge, callback) {
-  User.update({userid: user.userid}, user, {}, (err, n) => {
+  User.update({_id: user._id}, user, {}, (err, n) => {
     if (err) return callback(err, null)
     callback(null)
   })
 }
-*/
 
 module.exports = {
-  User, connect, getUser, getAllUsers, addUser, login, checkToken, updateUser
+  User, connect, getUser, getUserById, getAllUsers, addUser, login, checkToken, updateUser
 }

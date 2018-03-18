@@ -2,22 +2,27 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import Signup from '../components/signup'
 import { signup, inputSignupData } from '../actions/signup'
+import { changeLang } from '../actions/common'
 
-function mapStateToProps({ signup }) {
+function mapStateToProps({ signup, common }) {
   return {
-    userinfo: signup.userinfo,
+    user: signup.user,
     errortext: signup.errortext,
-    msg: signup.msg
+    msg: signup.msg,
+    lang: common.lang
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    signup(userinfo) {
-      dispatch(signup(userinfo))
+    signup(user) {
+      dispatch(signup(user))
     },
     inputSignupData(key, value) {
       dispatch(inputSignupData(key, value))
+    },
+    changeLang(lang) {
+      dispatch(changeLang(lang))
     },
     redirectTo(jump) {
       dispatch(push(jump))

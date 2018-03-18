@@ -5,16 +5,18 @@ const initialState = {
   user: {
     userid: '',
     passwd: '',
-    fullname: '',
-    kananame: '',
+    lastname: '',
+    firstname: '',
+    lastname_kana: '',
+    firstname_kana: '',
     phone: '',
     postal: '',
     address: '',
     comment: ''
   },
   challenge: {
-    nameofchallenge: '',
-    dateofchallenge: '',
+    challengename: '',
+    challengedate: '',
     paymentmethod: '',
     receipt: '',
     receiptdate: '',
@@ -25,7 +27,7 @@ const initialState = {
     comment: ''
   },
   filter: {
-    fullname: '',
+    name: '',
     unpaid: false
   },
   msg: '',
@@ -64,7 +66,7 @@ export default function adminReducer(state = initialState, action) {
       return Object.assign({}, state, {
         open: action.payload.open
       })
-    case 'SET_MSG':
+    case 'SET_ADMIN_MSG':
       return Object.assign({}, state, {
         msg: action.payload.msg
       })

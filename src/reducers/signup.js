@@ -1,11 +1,13 @@
-const requiredMessage = 'This field is required'
+const requiredMessage = 'required'
 
 const initialState = {
-  userinfo: {
+  user: {
     userid: '',
     passwd: '',
-    fullname: '',
-    kananame: '',
+    lastname: '',
+    firstname: '',
+    lastname_kana: '',
+    firstname_kana: '',
     phone: '',
     postal: '',
     address: '',
@@ -14,8 +16,10 @@ const initialState = {
   errortext: {
     userid: requiredMessage,
     passwd: requiredMessage,
-    fullname: requiredMessage,
-    kananame: requiredMessage,
+    lastname: requiredMessage,
+    firstname: requiredMessage,
+    lastname_kana: requiredMessage,
+    firstname_kana: requiredMessage,
     phone: requiredMessage,
     postal: requiredMessage,
     address: requiredMessage
@@ -28,10 +32,10 @@ export default function signupReducer(state = initialState, action) {
     case 'INPUT_SIGNUP_DATA':
       const errortext_new = (action.payload.value !== '') ? '' : requiredMessage
       return Object.assign({}, state, {
-        userinfo: Object.assign({}, state.userinfo, {[action.key]: action.payload.value}),
+        user: Object.assign({}, state.user, {[action.key]: action.payload.value}),
         errortext: Object.assign({}, state.errortext, {[action.key]: errortext_new})
       })
-    case 'SET_MSG':
+    case 'SET_SIGNUP_MSG':
       return Object.assign({}, state, {
         msg: action.payload.msg
       })

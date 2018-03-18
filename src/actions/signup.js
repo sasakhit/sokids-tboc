@@ -8,23 +8,25 @@ export const inputSignupData = ( key, value ) => ({
 })
 
 export const setMsg = ( msg ) => ({
-  type: 'SET_MSG',
+  type: 'SET_SIGNUP_MSG',
   payload: { msg }
 })
 
-export const signup = (userinfo) => {
+export const signup = (user) => {
   return dispatch  => {
     request
       .get('/tboc/api/signup')
       .query({
-        userid: userinfo.userid,
-        passwd: userinfo.passwd,
-        fullname: userinfo.fullname,
-        kananame: userinfo.kananame,
-        phone: userinfo.phone,
-        postal: userinfo.postal,
-        address: userinfo.address,
-        comment: userinfo.comment
+        userid: user.userid,
+        passwd: user.passwd,
+        lastname: user.lastname,
+        firstname: user.firstname,
+        lastname_kana: user.lastname_kana,
+        firstname_kana: user.firstname_kana,
+        phone: user.phone,
+        postal: user.postal,
+        address: user.address,
+        comment: user.comment
       })
       .end((err, res) => {
         if (err) return
@@ -32,7 +34,7 @@ export const signup = (userinfo) => {
         console.log(r)
         if (r.status && r.token) {
           // Save authentication token in localStorage
-          window.localStorage['tboc_id'] = userinfo.userid
+          window.localStorage['tboc_id'] = user.userid
           window.localStorage['tboc_auth_token'] = r.token
           dispatch(push('/home'))
           return

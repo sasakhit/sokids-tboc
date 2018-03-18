@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import request from 'superagent'
 import {Redirect} from 'react-router-dom'
-import styles from '../styles'
+import styles from '../utils/styles'
+import dict from '../utils/dictionary'
 import AppBar from 'material-ui/AppBar'
 import TextField from 'material-ui/TextField'
 import DatePicker from 'material-ui/DatePicker'
@@ -17,7 +18,16 @@ import {
 } from 'material-ui/Table'
 import {Tabs, Tab} from 'material-ui/Tabs'
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton'
-import Dialog from 'material-ui/Dialog';
+import Dialog from 'material-ui/Dialog'
+
+const columns = [
+  {row: 'index + 1', type: 'char', header: 'no', width: '5%', convert: false},
+  {row: 'challenge.challengedate', type: 'date' , header: 'challengeDate', width: '15%', convert: false},
+  {row: 'challenge.challengename', type: 'char' , header: 'challengeName', width: '20%', convert: false},
+  {row: 'challenge.paymentmethod', type: 'char' , header: 'paymentMethod', width: '15%', convert: true},
+  {row: 'challenge.receipt', type: 'char' , header: 'receipt', width: '15%', convert: false},
+  {row: 'challenge.comment', type: 'char' , header: 'comment', width: '30%', convert: false}
+]
 
 export default class Home extends Component {
   componentWillMount () {
@@ -57,67 +67,110 @@ export default class Home extends Component {
   }
 
   render () {
+    const rightButtons = (
+      <div>
+        <FlatButton label={dict[this.props.lang].langChangeButton} onClick={e => this.props.changeLang(dict[this.props.lang].langChange)} style={styles.appbarButton} />
+        <FlatButton label={dict[this.props.lang].logout} onClick={e => this.props.redirectTo('/logout')} style={styles.appbarButton} />
+      </div>
+    )
+
+    const errorText = (error) => {return (error === "required") ? dict[this.props.lang].required : error}
+
     const tabChanged = (value) => {
       this.props.changeTab(value)
     }
 
-    const challenges = this.props.challenges.map((challenge, index) =>
-      <TableRow key={index}>
-        <TableRowColumn>{this.dateFormat(challenge.dateofchallenge)}</TableRowColumn>
-        <TableRowColumn>{challenge.nameofchallenge}</TableRowColumn>
-        <TableRowColumn>{challenge.paymentmethod}</TableRowColumn>
-        <TableRowColumn>{challenge.receipt}</TableRowColumn>
-        <TableRowColumn>{challenge.comment}</TableRowColumn>
+    const challengeHeaders = (
+      <TableRow>
+        {columns.map((column, index) =>
+          <TableHeaderColumn key={index} style={{width: column.width}}>{dict[this.props.lang][column.header]}</TableHeaderColumn>
+        )}
       </TableRow>
     )
 
-    const actions = [
+    const challenges = this.props.challenges.map((challenge, index) =>
+      <TableRow key={index}>
+        {columns.map((column, index_c) =>
+          <TableRowColumn key={index_c} style={{width: column.width}}>
+            {(column.type === 'date') ? this.dateFormat(eval(column.row)) : (column.convert) ? dict[this.props.lang][eval(column.row)] : eval(column.row)}
+          </TableRowColumn>
+        )}
+      </TableRow>
+    )
+
+    const newChallengeActions = [
       <FlatButton
-        label="Cancel"
+        label={dict[this.props.lang].cancel}
         primary={true}
         onClick={e => this.handleClose()}
       />,
       <FlatButton
-        label="Submit"
+        label={dict[this.props.lang].register}
         primary={true}
         keyboardFocused={true}
         onClick={e => this.props.addChallenge(this.props.newchallenge)}
       />,
-    ];
+    ]
+
+    const updateUserActions = [
+      <FlatButton
+        label={dict[this.props.lang].cancel}
+        primary={true}
+        onClick={e => this.handleClose()}
+      />,
+      <FlatButton
+        label={dict[this.props.lang].update}
+        primary={true}
+        keyboardFocused={true}
+        onClick={e => this.props.updateUserData(this.props.user, {user: ['userid','passwd','lastname','firstname','lastname_kana','firstname_kana','postal', 'address','comment']})}
+      />,
+    ]
 
     const newChallngeDialog = (
       <Dialog
-        title="New Challenge Confirmation"
-        actions={actions}
+        title={dict[this.props.lang].newChallengeDialogTitle}
+        actions={newChallengeActions}
         modal={false}
-        open={this.props.open}
+        open={this.props.open && this.props.tab === 'new'}
         onRequestClose={e => this.handleClose()}
       >
-        Are you ok to add your new challenge?
+        {dict[this.props.lang].newChallengeDialogMessage}
+      </Dialog>
+    )
+
+    const updateUserDialog = (
+      <Dialog
+        title={dict[this.props.lang].updateUserDialogTitle}
+        actions={updateUserActions}
+        modal={false}
+        open={this.props.open && this.props.tab === 'profile'}
+        onRequestClose={e => this.handleClose()}
+      >
+        {dict[this.props.lang].updateUserDialogMessage}
       </Dialog>
     )
 
     return (
       <div>
         <AppBar
-          title={"TBOC - Home for " + this.props.userinfo.fullname}
-          iconElementRight={<FlatButton label="Log Out" onClick={e => this.logout()} />}
+          title={dict[this.props.lang].homeTitle + this.props.user.lastname + " " + this.props.user.firstname}
+          iconElementRight={rightButtons}
         />
         <Tabs
           value={this.props.tab}
           onChange={value => tabChanged(value)}
         >
-          <Tab label="New Challenge" value="new">
+          <Tab label={dict[this.props.lang].newChallenge} value="new">
             <div>
               <Table height="70vh"><TableBody displayRowCheckbox={false}>
                 <TableRow displayBorder={false}>
                   <TableRowColumn style={styles.customColumn80}>
                     <p>
-                      <b>Name of Challenge:</b>
+                      <b>{dict[this.props.lang].challengeName}:</b>
                     </p>
                     <TextField
-                      name='nameofchallenge'
-                      errorText={this.props.errortext.nameofchallenge}
+                      name='challengename'
+                      errorText={errorText(this.props.errortext.challengename)}
                       errorStyle={styles.errorStyle}
                       underlineStyle={styles.underlineStyle}
                       onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
@@ -127,26 +180,24 @@ export default class Home extends Component {
                 <TableRow displayBorder={false}>
                   <TableRowColumn>
                     <p>
-                      <b>Date of Challenge:</b><br />
-                      ビーズが開催日までに到着するようお知らせください
+                      <b>{dict[this.props.lang].challengeDate}:</b><br />
+                      {dict[this.props.lang].challengeDateNote}
                     </p>
                     <DatePicker
-                      name='dateofchallenge'
+                      name='challengedate'
                       mode="landscape"
-                      errorText={this.props.errortext.dateofchallenge}
+                      errorText={errorText(this.props.errortext.challengedate)}
                       errorStyle={styles.errorStyle}
                       underlineStyle={styles.underlineStyle}
-                      onChange={(e, v) => this.props.inputChallengeData('dateofchallenge', v.toString())}
+                      onChange={(e, v) => this.props.inputChallengeData('challengedate', v.toString())}
                     />
                   </TableRowColumn>
                 </TableRow>
                 <TableRow displayBorder={false}>
                   <TableRowColumn style={styles.wrapStyle}>
                     <p>
-                      <b>Payment Method for Donation:</b><br />
-                      参加の際にはビーズ１セット（2個）につき3,000円以上の寄付をお願いしております。
-                      ご都合の良い送金方法をお選びください。　※送付先などの詳細はこの登録フォームの下に記載してありますのでご確認ください。 
-                      寄付金は全額、ビーズ・オブ・カレッジ®プログラムの運用のために使わせていただきます。
+                      <b>{dict[this.props.lang].paymentMethod}:</b><br />
+                      {dict[this.props.lang].paymentMethodNote}
                     </p>
                     <RadioButtonGroup
                       name="paymentmethod"
@@ -154,19 +205,19 @@ export default class Home extends Component {
                     >
                       <RadioButton
                         value="creditcard"
-                        label="Credit Card"
+                        label={dict[this.props.lang].creditcard}
                       />
                       <RadioButton
                         value="paypal"
-                        label="PayPal"
+                        label={dict[this.props.lang].paypal}
                       />
                       <RadioButton
                         value="banktransfer"
-                        label="Bank Transfer"
+                        label={dict[this.props.lang].banktransfer}
                       />
                       <RadioButton
                         value="postaltransfer"
-                        label="Postal Transfer"
+                        label={dict[this.props.lang].postaltransfer}
                       />
                     </RadioButtonGroup><br />
                   </TableRowColumn>
@@ -174,22 +225,20 @@ export default class Home extends Component {
                 <TableRow displayBorder={false}>
                   <TableRowColumn style={styles.wrapStyle}>
                     <p>
-                      <b>Receipt for Tax Deduction:</b><br />
-                      認定NPO法人への寄付は、個人、企業ともに税額控除対象になります。
-                      個人の場合、地方税とあわせて寄附金額の最大約50％が控除されます。 （詳細：内閣府NPOホームページ http://bit.ly/UCy2vc）
+                      <b>{dict[this.props.lang].receipt}:</b><br />
+                      {dict[this.props.lang].receiptNote}
                     </p>
                     <RadioButtonGroup
                       name="receipt"
-                      //onChange={(e) => changed('receipt', e)}
                       onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
                     >
                       <RadioButton
                         value="yes"
-                        label="寄附金控除を受けるための領収書を送ってください"
+                        label={dict[this.props.lang].receiptYes}
                       />
                       <RadioButton
                         value="no"
-                        label="寄附金控除を受けるための領収書は不要"
+                        label={dict[this.props.lang].receiptNo}
                       />
                     </RadioButtonGroup><br />
                   </TableRowColumn>
@@ -197,7 +246,7 @@ export default class Home extends Component {
                 <TableRow displayBorder={false}>
                   <TableRowColumn>
                     <p>
-                      <b>Comment:</b>
+                      <b>{dict[this.props.lang].comment}:</b>
                     </p>
                     <TextField
                       name='comment'
@@ -210,130 +259,158 @@ export default class Home extends Component {
               </TableBody></Table>
 
               <div style={styles.margin20}>
-                <RaisedButton label="Send" primary={true} onClick={e => this.handleOpen()} />
+                <RaisedButton label={dict[this.props.lang].register} primary={true} onClick={e => this.handleOpen()} />
                 <p style={styles.error}>{this.props.msg}</p>
               </div>
               {newChallngeDialog}
             </div>
           </Tab>
-          <Tab label="Challenge History" value="history">
+          <Tab label={dict[this.props.lang].challengeHistory} value="history">
             <div>
               <Table height="70vh">
                 <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                  <TableRow>
-                    <TableHeaderColumn>Date</TableHeaderColumn>
-                    <TableHeaderColumn>Challenge Name</TableHeaderColumn>
-                    <TableHeaderColumn>Payment Method</TableHeaderColumn>
-                    <TableHeaderColumn>Receipt Required</TableHeaderColumn>
-                    <TableHeaderColumn>Comment</TableHeaderColumn>
-                  </TableRow>
+                  {challengeHeaders}
                 </TableHeader>
                 <TableBody displayRowCheckbox={false}>
-                  {challenges}
+                  {challenges.reverse()}
                 </TableBody>
               </Table>
             </div>
           </Tab>
-          <Tab label="Profile" value="profile">
+          <Tab label={dict[this.props.lang].profile} value="profile">
             <div>
               <Table height="70vh"><TableBody displayRowCheckbox={false}>
                 <TableRow displayBorder={false}>
-                  <TableRowColumn style={styles.customColumn20}>Email (User ID):</TableRowColumn>
+                  <TableRowColumn style={styles.customColumn20}>{dict[this.props.lang].userid}:</TableRowColumn>
                   <TableRowColumn style={styles.customColumn80}>
                     <TextField
                       name='userid'
-                      value={this.props.userinfo.userid}
-                      errorText={this.props.errortext.userid}
+                      value={this.props.user.userid}
+                      errorText={errorText(this.props.errortext.userid)}
                       errorStyle={styles.errorStyle}
                       underlineStyle={styles.underlineStyle}
-                      onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
+                      onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
                     />
                   </TableRowColumn>
                 </TableRow>
                 <TableRow displayBorder={false}>
-                  <TableRowColumn>Password:</TableRowColumn>
+                  <TableRowColumn>{dict[this.props.lang].password}:</TableRowColumn>
                   <TableRowColumn>
                     <TextField
                       name='passwd'
-                      value='*****'
-                      errorText={this.props.errortext.passwd}
-                      errorStyle={styles.errorStyle}
+                      type='password'
+                      hintText={dict[this.props.lang].password_hint}
+                      value={this.props.user.passwd}
                       underlineStyle={styles.underlineStyle}
-                      //onChange={e => changed('passwd', e)}
-                      onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
+                      onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
                     />
                   </TableRowColumn>
                 </TableRow>
                 <TableRow displayBorder={false}>
-                  <TableRowColumn>Full Name:</TableRowColumn>
+                  <TableRowColumn>{dict[this.props.lang].fullname}:</TableRowColumn>
                   <TableRowColumn>
                     <TextField
-                      name='fullname'
-                      value={this.props.userinfo.fullname}
-                      errorText={this.props.errortext.fullname}
+                      name='lastname'
+                      value={this.props.user.lastname}
+                      errorText={errorText(this.props.errortext.lastname)}
                       errorStyle={styles.errorStyle}
                       underlineStyle={styles.underlineStyle}
-                      //onChange={e => changed('fullname', e)}
-                      onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
+                      onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
+                      style={styles.nameField}
                     />
-                  </TableRowColumn>
-                </TableRow>
-                <TableRow displayBorder={false}>
-                  <TableRowColumn>Name (Kana):</TableRowColumn>
-                  <TableRowColumn>
                     <TextField
-                      name='kananame'
-                      value={this.props.userinfo.kananame}
-                      errorText={this.props.errortext.kananame}
+                      name='firstname'
+                      value={this.props.user.firstname}
+                      errorText={errorText(this.props.errortext.firstname)}
                       errorStyle={styles.errorStyle}
                       underlineStyle={styles.underlineStyle}
-                      //onChange={e => changed('kananame', e)}
-                      onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
+                      onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
+                      style={styles.nameField}
                     />
                   </TableRowColumn>
                 </TableRow>
                 <TableRow displayBorder={false}>
-                  <TableRowColumn>Phone:</TableRowColumn>
+                  <TableRowColumn>{dict[this.props.lang].fullname_kana}:</TableRowColumn>
+                  <TableRowColumn>
+                  <TextField
+                      name='lastname_kana'
+                      value={this.props.user.lastname_kana}
+                      errorText={errorText(this.props.errortext.lastname_kana)}
+                      errorStyle={styles.errorStyle}
+                      underlineStyle={styles.underlineStyle}
+                      onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
+                      style={styles.nameField}
+                    />
+                    <TextField
+                      name='firstname_kana'
+                      value={this.props.user.firstname_kana}
+                      errorText={errorText(this.props.errortext.firstname_kana)}
+                      errorStyle={styles.errorStyle}
+                      underlineStyle={styles.underlineStyle}
+                      onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
+                      style={styles.nameField}
+                    />
+                  </TableRowColumn>
+                </TableRow>
+                <TableRow displayBorder={false}>
+                  <TableRowColumn>{dict[this.props.lang].phone}:</TableRowColumn>
                   <TableRowColumn>
                     <TextField
                       name='phone'
-                      value={this.props.userinfo.phone}
-                      errorText={this.props.errortext.phone}
+                      value={this.props.user.phone}
+                      errorText={errorText(this.props.errortext.phone)}
                       errorStyle={styles.errorStyle}
                       underlineStyle={styles.underlineStyle}
-                      //onChange={e => changed('phone', e)}
-                      onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
+                      onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
                     />
                   </TableRowColumn>
                 </TableRow>
                 <TableRow displayBorder={false}>
-                  <TableRowColumn>Postal:</TableRowColumn>
+                  <TableRowColumn>{dict[this.props.lang].postal}:</TableRowColumn>
                   <TableRowColumn>
                     <TextField
                       name='postal'
-                      value={this.props.userinfo.postal}
-                      errorText={this.props.errortext.postal}
+                      value={this.props.user.postal}
+                      errorText={errorText(this.props.errortext.postal)}
                       errorStyle={styles.errorStyle}
                       underlineStyle={styles.underlineStyle}
-                      onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
+                      onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
                     />
                   </TableRowColumn>
                 </TableRow>
                 <TableRow displayBorder={false}>
-                  <TableRowColumn>Address:</TableRowColumn>
+                  <TableRowColumn>{dict[this.props.lang].address}:</TableRowColumn>
                   <TableRowColumn>
                     <TextField
                       name='address'
-                      value={this.props.userinfo.address}
-                      errorText={this.props.errortext.address}
+                      value={this.props.user.address}
+                      errorText={errorText(this.props.errortext.address)}
                       errorStyle={styles.errorStyle}
                       fullWidth={true}
                       underlineStyle={styles.underlineStyle}
-                      onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
+                      onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
+                    />
+                  </TableRowColumn>
+                </TableRow>
+                <TableRow displayBorder={false}>
+                  <TableRowColumn>{dict[this.props.lang].comment}:</TableRowColumn>
+                  <TableRowColumn>
+                    <TextField
+                      name='comment'
+                      value={this.props.user.comment}
+                      fullWidth={true}
+                      underlineStyle={styles.underlineStyle}
+                      onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
                     />
                   </TableRowColumn>
                 </TableRow>
               </TableBody></Table>
+
+              <div style={styles.margin20}>
+                <RaisedButton label={dict[this.props.lang].update} primary={true} onClick={e => this.handleOpen()} />
+                <p style={styles.error}>{this.props.msg}</p>
+              </div>
+              {updateUserDialog}
             </div>
           </Tab>
         </Tabs>

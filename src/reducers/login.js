@@ -1,4 +1,8 @@
-const initialState = { userid: '', passwd: '', msg: '' }
+const initialState = {
+  userid: '',
+  passwd: '',
+  msg: ''
+}
 
 export default function loginReducer(state = initialState, action) {
   switch (action.type) {
@@ -6,7 +10,7 @@ export default function loginReducer(state = initialState, action) {
       return Object.assign({}, state, {
         [action.key]: action.payload.value
       })
-    case 'SET_MSG':
+    case 'SET_LOGIN_MSG':
       return Object.assign({}, state, {
         msg: action.payload.msg
       })

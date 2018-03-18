@@ -1,15 +1,19 @@
 import request from 'superagent'
 import { push } from 'react-router-redux'
 
-export const inputChallengeData = ( key, value ) => ({
-  type: 'INPUT_CHALLENGE_DATA',
-  key: key,
-  payload: { value }
+export const inputUserData = ( key, value ) => ({
+  type: 'INPUT_USER_DATA',
+  payload: { key, value }
 })
 
-export const setUserInfo = ( userinfo ) => ({
+export const inputChallengeData = ( key, value ) => ({
+  type: 'INPUT_CHALLENGE_DATA',
+  payload: { key, value }
+})
+
+export const setUser = ( user ) => ({
   type: 'SET_USER_INFO',
-  payload: { userinfo }
+  payload: { user }
 })
 
 export const setChallenges = ( challenges ) => ({
@@ -28,7 +32,7 @@ export const openCloseDialog = ( open ) => ({
 })
 
 export const setMsg = ( msg ) => ({
-  type: 'SET_MSG',
+  type: 'SET_HOME_MSG',
   payload: { msg }
 })
 
@@ -40,11 +44,14 @@ export const loadUser = (userid) => {
     .end((err, res) => {
       console.log(err, res)
       if (err) return
-      dispatch(setUserInfo({
+      dispatch(setUser({
+        _id: res.body.user._id,
         userid: res.body.user.userid,
-        passwd: res.body.user.passwd,
-        fullname: res.body.user.fullname,
-        kananame: res.body.user.kananame,
+        passwd: '',
+        lastname: res.body.user.lastname,
+        firstname: res.body.user.firstname,
+        lastname_kana: res.body.user.lastname_kana,
+        firstname_kana: res.body.user.firstname_kana,
         phone: res.body.user.phone,
         postal: res.body.user.postal,
         address: res.body.user.address,
@@ -78,32 +85,27 @@ export const addChallenge = (newchallenge) => {
   }
 }
 
-export const signup = (userinfo) => {
+export const updateUserData = (user, keys) => {
   return dispatch => {
     request
-      .get('/tboc/api/signup')
+      .get('/tboc/api/update_user_challenge')
       .query({
-        userid: userinfo.userid,
-        passwd: userinfo.passwd,
-        fullname: userinfo.fullname,
-        kananame: userinfo.kananame,
-        phone: userinfo.phone,
-        postal: userinfo.postal,
-        address: userinfo.address,
-        comment: userinfo.comment
+        userid: window.localStorage.tboc_id,
+        token: window.localStorage.tboc_auth_token,
+        user: user,
+        challenge: null,
+        keys: keys
       })
       .end((err, res) => {
         if (err) return
-        const r = res.body
-        console.log(r)
-        if (r.status && r.token) {
-          // Save authentication token in localStorage
-          window.localStorage['tboc_id'] = userinfo.userid
-          window.localStorage['tboc_auth_token'] = r.token
-          dispatch(push('/home'))
+        if (!res.body.status) {
+          window.alert(res.body.msg)
           return
         }
-        dispatch(setMsg(r.msg))
+        dispatch(openCloseDialog(false))
+        dispatch(changeTab('profile'))
+        if (res.body.user.userid !== window.localStorage.tboc_id) window.localStorage.tboc_id = res.body.user.userid
+        dispatch(loadUser(window.localStorage.tboc_id))
       })
   }
 }

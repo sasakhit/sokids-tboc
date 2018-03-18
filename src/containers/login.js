@@ -1,14 +1,15 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import Login from '../components/login'
-//import { login, inputUserid, inputPasswd, inputData } from '../actions/login'
 import { login, inputData } from '../actions/login'
+import { changeLang } from '../actions/common'
 
-function mapStateToProps({ login }) {
+function mapStateToProps({ login, common }) {
   return {
     userid: login.userid,
     passwd: login.passwd,
-    msg: login.msg
+    msg: login.msg,
+    lang: common.lang
   }
 }
 
@@ -17,16 +18,11 @@ function mapDispatchToProps(dispatch) {
     login(userid, passwd) {
       dispatch(login(userid, passwd))
     },
-    /*
-    inputUserid(userid) {
-      dispatch(inputUserid(userid))
-    },
-    inputPasswd(passwd) {
-      dispatch(inputPasswd(passwd))
-    },
-    */
     inputData(key, value) {
       dispatch(inputData(key, value))
+    },
+    changeLang(lang) {
+      dispatch(changeLang(lang))
     },
     redirectTo(jump) {
       dispatch(push(jump))

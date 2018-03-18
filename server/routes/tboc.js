@@ -9,14 +9,17 @@ const mail = require('../utils/mail')
 router.get('/api/signup', (req, res) => {
     const userid = req.query.userid
     const passwd = req.query.passwd
-    const fullname = req.query.fullname
-    const kananame = req.query.kananame
+    const lastname = req.query.lastname
+    const firstname = req.query.firstname
+    const lastname_kana = req.query.lastname_kana
+    const firstname_kana = req.query.firstname_kana
     const phone = req.query.phone
     const postal = req.query.postal
     const address = req.query.address
     const comment = req.query.comment
 
-    if (userid === '' || passwd === '' || fullname === '' || kananame === '' || phone === '' || postal === '' || address === '') {
+    if (userid === '' || passwd === '' || lastname === '' || firstname === '' || lastname_kana === '' || firstname_kana === ''
+        || phone === '' || postal === '' || address === '') {
       return res.json({status: false, msg: 'Please input all the required fields'})
     }
 
@@ -25,7 +28,7 @@ router.get('/api/signup', (req, res) => {
         return res.json({status: false, msg: 'The userid already exists'})
       }
 
-      db.addUser(userid, passwd, fullname, kananame, phone, postal, address, comment, (token) => {
+      db.addUser(userid, passwd, lastname, firstname, lastname_kana, firstname_kana, phone, postal, address, comment, (token) => {
         if (!token) {
           res.json({status: false, msg: 'DB error'})
         }
@@ -40,7 +43,7 @@ router.get('/api/signup', (req, res) => {
     const passwd = req.query.passwd
     db.login(userid, passwd, (err, token) => {
       if (err) {
-        res.json({status: false, msg: 'Authentication error'})
+        res.json({status: false, msg: 'Authentication Error'})
         return
       }
 
@@ -68,7 +71,7 @@ router.get('/api/signup', (req, res) => {
     const token = req.query.token
     const challenge = req.query.challenge
 
-    if (challenge.nameofchallenge === '' || challenge.dateofchallenge === '' || challenge.paymentmethod === '' || challenge.receipt === '') {
+    if (challenge.challengename === '' || challenge.challengedate === '' || challenge.paymentmethod === '' || challenge.receipt === '') {
       return res.json({status: false, msg: 'Please input all the required fields'})
     }
 
@@ -89,27 +92,47 @@ router.get('/api/signup', (req, res) => {
     })
   })
 
-  router.get('/api/edit_user_challenge', (req, res) => {
+  router.get('/api/update_user_challenge', (req, res) => {
+    //const userid = req.query.userid
+    //const token = req.query.token
     const _user = req.query.user
     const _challenge = req.query.challenge
     const _keys = req.query.keys
+    let exists = false
 
-    db.getUser(_user.userid, (user) => {
-      if (_keys.user) _keys.user.forEach(key =>
-        user[key] = _user[key]
-      )
-      if (_keys.challenge) _keys.challenge.forEach(key =>
-        user.challenges.filter(challenge => challenge._id == _challenge._id)[0][key] = _challenge[key]
-      )
-      db.updateUser(user, (err) => {
-        if (err) {
-          res.json({status: false, msg: 'DB Error'})
-          return
-        }
-        res.json({status: true})
+    /*
+    if (userid === '' || passwd === '' || fullname === '' || kananame === '' || phone === '' || postal === '' || address === '') {
+      return res.json({status: false, msg: 'Please input all the required fields'})
+    }
+    */
+
+  // ToDo: Need to support password change
+
+   //db.checkToken(userid, token, (err, user) => {
+   // if (err) {
+   //   res.json({status: false, msg: 'Authentication Error'})
+   //   return
+   // }
+    db.getUserById(_user._id, (user) => { 
+      db.getUser(_user.userid, (newuser) => {
+        if ((_user.userid !== user.userid) && (newuser)) return res.json({status: false, msg: 'The userid already exists'})
+   
+        if (_keys.user) _keys.user.forEach(key =>
+          user[key] = _user[key]
+        )
+
+        if (_keys.challenge) _keys.challenge.forEach(key =>
+          user.challenges.filter(challenge => challenge._id == _challenge._id)[0][key] = _challenge[key]
+        )
+        db.updateUser(user, (err) => {
+          if (err) {
+            res.json({status: false, msg: 'DB Error'})
+            return
+          }
+          res.json({status: true, user: user})
+        })
       })
     })
-
   })
 
 module.exports = router

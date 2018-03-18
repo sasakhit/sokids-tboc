@@ -8,7 +8,7 @@ export const inputData = ( key, value ) => ({
 })
 
 export const setMsg = ( msg ) => ({
-  type: 'SET_MSG',
+  type: 'SET_LOGIN_MSG',
   payload: { msg }
 })
 

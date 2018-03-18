@@ -37,7 +37,7 @@ export const openCloseDialog = ( open ) => ({
 })
 
 export const setMsg = ( msg ) => ({
-  type: 'SET_MSG',
+  type: 'SET_ADMIN_MSG',
   payload: { msg }
 })
 
@@ -54,11 +54,13 @@ export const loadAllUsers = () => {
   }
 }
 
-export const editAdminData = (user, challenge, keys) => {
+export const updateAdminData = (user, challenge, keys) => {
   return dispatch => {
     request
-      .get('/tboc/api/edit_user_challenge')
+      .get('/tboc/api/update_user_challenge')
       .query({
+        userid: window.localStorage.tboc_id,
+        token: window.localStorage.tboc_auth_token,
         user: user,
         challenge: challenge,
         keys: keys

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import Admin from '../components/admin'
-import { inputUserData, inputChallengeData, changeFilter, editAdminData, loadAllUsers, selectRow, changeTab, openCloseDialog } from '../actions/admin'
+import { inputUserData, inputChallengeData, changeFilter, updateAdminData, loadAllUsers, selectRow, changeTab, openCloseDialog } from '../actions/admin'
 
 function mapStateToProps({ admin }) {
   return {
@@ -26,8 +26,8 @@ function mapDispatchToProps(dispatch) {
     changeFilter(key, value) {
       dispatch(changeFilter(key, value))
     },
-    editAdminData(user, challenge, keys) {
-      dispatch(editAdminData(user, challenge, keys))
+    updateAdminData(user, challenge, keys) {
+      dispatch(updateAdminData(user, challenge, keys))
     },
     loadAllUsers() {
       dispatch(loadAllUsers())

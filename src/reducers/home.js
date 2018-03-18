@@ -1,11 +1,13 @@
-const requiredMessage = 'This field is required'
+const requiredMessage = 'required'
 
 const initialState = {
-  userinfo: {
+  user: {
     userid: '',
     passwd: '',
-    fullname: '',
-    kananame: '',
+    lastname: '',
+    firstname: '',
+    lastname_kana: '',
+    firstname_kana: '',
     phone: '',
     postal: '',
     address: '',
@@ -13,8 +15,8 @@ const initialState = {
   },
   challenges: [],
   newchallenge: {
-    nameofchallenge: '',
-    dateofchallenge: '',
+    challengename: '',
+    challengedate: '',
     paymentmethod: '',
     receipt: '',
     comment: ''
@@ -22,13 +24,15 @@ const initialState = {
   errortext: {
     userid: '',
     passwd: '',
-    fullname: '',
-    kananame: '',
+    lastname: '',
+    firstname: '',
+    lastname_kana: '',
+    firstname_kana: '',
     phone: '',
     postal: '',
     address: '',
-    nameofchallenge: requiredMessage,
-    dateofchallenge: requiredMessage,
+    challengename: requiredMessage,
+    challengedate: requiredMessage,
     paymentmethod: requiredMessage,
     receipt: requiredMessage
   },
@@ -39,15 +43,21 @@ const initialState = {
 
 export default function homeReducer(state = initialState, action) {
   switch (action.type) {
-    case 'INPUT_CHALLENGE_DATA':
-      const errortext_new = (action.payload.value !== '') ? '' : requiredMessage
+    case 'INPUT_USER_DATA':
+      const errortext_user = (action.payload.value !== '') ? '' : requiredMessage
       return Object.assign({}, state, {
-        newchallenge: Object.assign({}, state.newchallenge, {[action.key]: action.payload.value}),
-        errortext: Object.assign({}, state.errortext, {[action.key]: errortext_new})
+        user: Object.assign({}, state.user, {[action.payload.key]: action.payload.value}),
+        errortext: Object.assign({}, state.errortext, {[action.payload.key]: errortext_user})
+      })
+    case 'INPUT_CHALLENGE_DATA':
+      const errortext_challenge = (action.payload.value !== '') ? '' : requiredMessage
+      return Object.assign({}, state, {
+        newchallenge: Object.assign({}, state.newchallenge, {[action.payload.key]: action.payload.value}),
+        errortext: Object.assign({}, state.errortext, {[action.payload.key]: errortext_challenge})
       })
     case 'SET_USER_INFO':
       return Object.assign({}, state, {
-        userinfo: action.payload.userinfo
+        user: action.payload.user
       })
     case 'SET_CHALLENGES':
       return Object.assign({}, state, {
@@ -61,7 +71,7 @@ export default function homeReducer(state = initialState, action) {
       return Object.assign({}, state, {
         open: action.payload.open
       })
-    case 'SET_MSG':
+    case 'SET_HOME_MSG':
       return Object.assign({}, state, {
         msg: action.payload.msg
       })

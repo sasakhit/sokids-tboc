@@ -30,7 +30,7 @@ router.get('/api/signup', (req, res) => {
 
       db.addUser(userid, passwd, lastname, firstname, lastname_kana, firstname_kana, phone, postal, address, comment, (token) => {
         if (!token) {
-          res.json({status: false, msg: 'DB error'})
+          res.json({status: false, msg: 'DB Error'})
         }
         mail.sendMail()
         res.json({status: true, token})

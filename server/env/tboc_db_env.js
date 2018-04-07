@@ -1,9 +1,10 @@
-const cosmosPort = 1234; // replace with your port
-const dbName = 'tboc';
-const key = 'your-key-goes-here';
+//const cosmosPort = 1234
+const cosmosPort = 10255
+const dbName = 'tboc'
+const key = 'sOs1tDxShZEteLjhakCHfdAFewU6NyZhxUxloLUnzyz7ToALvBxoeGgcyaSntspD27iH10cW6UpXPaLsZiLqpA=='
 
 module.exports = {
   cosmosPort,
   dbName,
   key
-};
+}

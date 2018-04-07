@@ -2,63 +2,60 @@ import React, {Component} from 'react'
 import request from 'superagent'
 import {Redirect} from 'react-router-dom'
 import styles from '../utils/styles'
+import properties from '../utils/properties'
 import dict from '../utils/dictionary'
 import AppBar from 'material-ui/AppBar'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
-import Paper from 'material-ui/Paper'
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
+import Drawer from 'material-ui/Drawer'
+import MenuItem from 'material-ui/MenuItem'
 
 export default class Login extends Component {
   render () {
     const rightButtons = (
-      <div>
-      <FlatButton label={dict[this.props.lang].langChangeButton} onClick={e => this.props.changeLang(dict[this.props.lang].langChange)} style={styles.appbarButton} />
-      <FlatButton label={dict[this.props.lang].signup} onClick={e => this.props.redirectTo('/signup')} style={styles.appbarButton} />
-      </div>
+      <FlatButton label={dict[this.props.lang].langChangeButton} onClick={e => this.props.changeLang(dict[this.props.lang].langChange)} />
     )
 
     const msg = (msg) => {return (msg === "Authentication Error") ? dict[this.props.lang].autherror : msg}
 
     return (
       <div>
+        <Drawer
+          docked={false}
+          width={120}
+          open={this.props.drawer}
+          onRequestChange={() => this.props.openCloseDrawer(false)}
+        >
+          <MenuItem
+            onClick={e => {this.props.redirectTo('/signup'); this.props.openCloseDrawer(false)}}>
+            {dict[this.props.lang].signup}
+          </MenuItem>
+          <MenuItem onClick={e => {this.props.changeLang(dict[this.props.lang].langChange); this.props.openCloseDrawer(false)}}>
+            {dict[this.props.lang].langChangeButton}
+          </MenuItem>
+        </Drawer>
         <AppBar
           title={dict[this.props.lang].loginTitle}
           iconElementRight={rightButtons}
+          onLeftIconButtonClick={() => this.props.openCloseDrawer(true)}
         />
-
-        <Table><TableBody displayRowCheckbox={false}>
-          <TableRow displayBorder={false}>
-            <TableRowColumn style={styles.customColumn20}>{dict[this.props.lang].userid}:</TableRowColumn>
-            <TableRowColumn style={styles.customColumn80}>
-              <TextField
-                name='userid'
-                hintText='taro.yamada@boc.org'
-                underlineStyle={styles.underlineStyle}
-                onChange={e => this.props.inputData(e.target.name, e.target.value)}
-              />
-            </TableRowColumn>
-          </TableRow>
-          <TableRow displayBorder={false}>
-            <TableRowColumn>{dict[this.props.lang].password}:</TableRowColumn>
-            <TableRowColumn>
-              <TextField
-                name='passwd'
-                type='password'
-                underlineStyle={styles.underlineStyle}
-                onChange={e => this.props.inputData(e.target.name, e.target.value)}
-              />
-            </TableRowColumn>
-          </TableRow>
-        </TableBody></Table>
+        <div style={styles.margin20}>
+          <TextField
+            {...properties.textFieldProps}
+            name='userid'
+            floatingLabelText={dict[this.props.lang].userid}
+            hintText='taro.yamada@boc.org'
+            onChange={e => this.props.inputData(e.target.name, e.target.value)}
+          /><br />
+          <TextField
+            {...properties.textFieldProps}
+            name='passwd'
+            floatingLabelText={dict[this.props.lang].password}
+            type='password'
+            onChange={e => this.props.inputData(e.target.name, e.target.value)}
+          />
+        </div>
 
         <div style={styles.margin20}>
           <RaisedButton label={dict[this.props.lang].login} primary={true} onClick={e => this.props.login(this.props.userid, this.props.passwd)} />

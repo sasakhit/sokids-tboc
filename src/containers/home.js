@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import Home from '../components/home'
 import { addChallenge, updateUserData, inputUserData, inputChallengeData, loadUser, changeTab, openCloseDialog } from '../actions/home'
-import { changeLang } from '../actions/common'
+import { changeLang, openCloseDrawer } from '../actions/common'
 
 function mapStateToProps({ home, common }) {
   return {
@@ -13,7 +13,9 @@ function mapStateToProps({ home, common }) {
     msg: home.msg,
     tab: home.tab,
     open: home.open,
-    lang: common.lang
+    lang: common.lang,
+    width: common.width,
+    drawer: common.drawer
   }
 }
 
@@ -42,6 +44,9 @@ function mapDispatchToProps(dispatch) {
     },
     changeLang(lang) {
       dispatch(changeLang(lang))
+    },
+    openCloseDrawer(drawer) {
+      dispatch(openCloseDrawer(drawer))
     },
     redirectTo(jump) {
       dispatch(push(jump))

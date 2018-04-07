@@ -2,8 +2,9 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import Admin from '../components/admin'
 import { inputUserData, inputChallengeData, changeFilter, updateAdminData, loadAllUsers, selectRow, changeTab, openCloseDialog } from '../actions/admin'
+import { changeLang } from '../actions/common'
 
-function mapStateToProps({ admin }) {
+function mapStateToProps({ admin, common }) {
   return {
     users: admin.users,
     user: admin.user,
@@ -11,7 +12,8 @@ function mapStateToProps({ admin }) {
     filter: admin.filter,
     msg: admin.msg,
     tab: admin.tab,
-    open: admin.open
+    open: admin.open,
+    lang: common.lang
   }
 }
 
@@ -40,6 +42,9 @@ function mapDispatchToProps(dispatch) {
     },
     openCloseDialog(open) {
       dispatch(openCloseDialog(open))
+    },
+    changeLang(lang) {
+      dispatch(changeLang(lang))
     },
     redirectTo(jump) {
       dispatch(push(jump))

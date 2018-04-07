@@ -7,12 +7,10 @@ app.listen(app.get("port"), () => {
 });
 
 // Route includes
-var tboc = require('./server/routes/tboc');
-//var sns = require('./server/routes/sns');
+const tboc = require('./server/routes/tboc');
 
 // Routes
 app.use('/tboc', tboc);
-//app.use('/sns', sns);
 
 // Static files
 app.use('/public', express.static('./public'))

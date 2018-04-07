@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const env = require('../env/tboc_db_env'); 
 mongoose.Promise = global.Promise;
 
-//const mongoUri = `mongodb://${env.dbName}:${env.key}@${env.dbName}.documents.azure.com:${env.cosmosPort}/?ssl=true`;
-const mongoUri = `mongodb://127.0.0.1/${env.dbName}`;
+const mongoUri = `mongodb://${env.dbName}:${env.key}@${env.dbName}.documents.azure.com:${env.cosmosPort}/?ssl=true`;
+//uri: 'mongodb://<cosmosdb-name>:<primary_master_key>@<cosmosdb-name>.documents.azure.com:10255/mean-dev?ssl=true&sslverifycertificate=false'
+//const mongoUri = `mongodb://127.0.0.1/${env.dbName}`;
 
 function connect() {
   return mongoose.connect(mongoUri, { useMongoClient: true });

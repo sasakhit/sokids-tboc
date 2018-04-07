@@ -16,6 +16,7 @@ import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux'
 import createBrowserHistory from 'history/createBrowserHistory'
 import createStore from './store'
+import { resizeScreen } from './actions/common'
 
 const history = createBrowserHistory()
 const store = createStore(history);
@@ -42,3 +43,7 @@ ReactDOM.render(
   </MuiThemeProvider>,
   document.getElementById('app')
 )
+
+window.addEventListener('resize', () => {
+  store.dispatch(resizeScreen(window.innerWidth))
+})

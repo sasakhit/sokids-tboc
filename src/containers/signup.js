@@ -2,14 +2,15 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import Signup from '../components/signup'
 import { signup, inputSignupData } from '../actions/signup'
-import { changeLang } from '../actions/common'
+import { changeLang, openCloseDrawer } from '../actions/common'
 
 function mapStateToProps({ signup, common }) {
   return {
     user: signup.user,
     errortext: signup.errortext,
     msg: signup.msg,
-    lang: common.lang
+    lang: common.lang,
+    drawer: common.drawer
   }
 }
 
@@ -23,6 +24,9 @@ function mapDispatchToProps(dispatch) {
     },
     changeLang(lang) {
       dispatch(changeLang(lang))
+    },
+    openCloseDrawer(drawer) {
+      dispatch(openCloseDrawer(drawer))
     },
     redirectTo(jump) {
       dispatch(push(jump))

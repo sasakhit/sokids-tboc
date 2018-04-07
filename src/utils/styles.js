@@ -1,4 +1,4 @@
-import {orange500, blue500, grey600} from 'material-ui/styles/colors'
+import {orange500, blue500, grey600, cyan500} from 'material-ui/styles/colors'
 import {typography} from 'material-ui/styles'
 
 const styles = {
@@ -13,10 +13,10 @@ const styles = {
     borderColor: blue500,
   },
   floatingLabelStyle: {
-    color: orange500,
+    color: grey600,
   },
   floatingLabelFocusStyle: {
-    color: blue500,
+    color: cyan500,
   },
   error: {
     color: 'red'
@@ -32,6 +32,14 @@ const styles = {
     fontSize: 24,
     fontWeight: typography.fontWeightLight,
     marginBottom: 20
+  },
+  note: {
+    fontSize: 13,
+    fontWeight: typography.fontWeightLight
+  },
+  buttonLabel: {
+    fontSize: 13,
+    fontWeight: typography.fontWeightLight
   },
   paper: {
     padding: 30
@@ -65,6 +73,10 @@ const styles = {
   nameField: {
     width: 150,
     marginRight: 20
+  },
+  flexRow: {
+    display: 'flex',
+    flexDirection: 'row'
   }
 }
 export default styles

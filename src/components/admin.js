@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import request from 'superagent'
 import {Redirect} from 'react-router-dom'
 import styles from '../utils/styles'
+import dict from '../utils/dictionary'
 import AppBar from 'material-ui/AppBar'
 import TextField from 'material-ui/TextField'
 import DatePicker from 'material-ui/DatePicker'
@@ -23,26 +24,26 @@ import MenuItem from 'material-ui/MenuItem'
 import Checkbox from 'material-ui/Checkbox'
 
 const columns = [
-  {row: 'user.userid', type: 'char', header: 'User ID', width: '90px', visicha: true, visifin: true},
-  {row: 'user.lastname', type: 'char' , header: 'Last Name', width: '90px', visicha: true, visifin: true},
-  {row: 'user.firstname', type: 'char' , header: 'First Name', width: '90px', visicha: true, visifin: true},
-  {row: 'user.lastname_kana', type: 'char' , header: 'Last Name (Kana)', width: '90px', visicha: false, visifin: false},
-  {row: 'user.firstname_kana', type: 'char' , header: 'First Name (Kana)', width: '90px', visicha: false, visifin: false},
-  {row: 'user.phone', type: 'char' , header: 'Phone', width: '90px', visicha: false, visifin: false},
-  {row: 'user.postal', type: 'char' , header: 'Postal', width: '90px', visicha: false, visifin: false},
-  {row: 'user.address', type: 'char' , header: 'Address', width: '90px', visicha: false, visifin: false},
-  {row: 'user.comment', type: 'char' , header: 'User Comment', width: '90px', visicha: false, visifin: false},
-  {row: 'user.challenges.length', type: 'char' , header: 'Challenge Count', width: '90px', visicha: false, visifin: false},
-  {row: 'challenge.challengename', type: 'char' , header: 'Challenge Name', width: '90px', visicha: true, visifin: true},
-  {row: 'challenge.challengedate', type: 'date' , header: 'Challenge Date', width: '90px', visicha: true, visifin: true},
-  {row: 'challenge.paymentmethod', type: 'char' , header: 'Payment Method', width: '90px', visicha: true, visifin: true},
-  {row: 'challenge.receipt', type: 'char' , header: 'Receipt', width: '90px', visicha: true, visifin: true},
-  {row: 'challenge.receiptdate', type: 'date' , header: 'Receipt Date', width: '90px', visicha: true, visifin: true},
-  {row: 'challenge.receiptmethod', type: 'char' , header: 'Receipt Method', width: '90px', visicha: true, visifin: true},
-  {row: 'challenge.deliverydate', type: 'date' , header: 'Delivery Date', width: '90px', visicha: true, visifin: false},
-  {row: 'challenge.deliverymethod', type: 'char' , header: 'Delivery Method', width: '90px', visicha: true, visifin: false},
-  {row: 'challenge.collectiondate', type: 'date' , header: 'Collection Date', width: '90px', visicha: true, visifin: false},
-  {row: 'challenge.comment', type: 'char' , header: 'Challenge Comment', width: '90px', visicha: true, visifin: true}
+  {row: 'user.userid',              type: 'char', header: 'User ID',           width_usr: '15%', width_cha: '130px', width_fin : '15%'},
+  {row: 'user.challenges.length',   type: 'char', header: 'Count',             width_usr: '5%',  width_cha: '0',     width_fin : '0'},
+  {row: 'user.lastname',            type: 'char', header: 'Last Name',         width_usr: '8%',  width_cha: '70px',  width_fin : '8%'},
+  {row: 'user.firstname',           type: 'char', header: 'First Name',        width_usr: '8%',  width_cha: '70px',  width_fin : '8%'},
+  {row: 'user.lastname_kana',       type: 'char', header: 'Last (Kana)',       width_usr: '8%',  width_cha: '0',     width_fin : '0'},
+  {row: 'user.firstname_kana',      type: 'char', header: 'First (Kana)',      width_usr: '8%',  width_cha: '0',     width_fin : '0'},
+  {row: 'user.phone',               type: 'char', header: 'Phone',             width_usr: '10%', width_cha: '0',     width_fin : '0'},
+  {row: 'user.postal',              type: 'char', header: 'Postal',            width_usr: '8%',  width_cha: '0',     width_fin : '0'},
+  {row: 'user.address',             type: 'char', header: 'Address',           width_usr: '20%', width_cha: '0',     width_fin : '0'},
+  {row: 'user.comment',             type: 'char', header: 'User Comment',      width_usr: '10%', width_cha: '0',     width_fin : '0'},
+  {row: 'challenge.challengename',  type: 'char', header: 'Challenge Name',    width_usr: '0',   width_cha: '100px', width_fin : '14%'},
+  {row: 'challenge.challengedate',  type: 'date', header: 'Challenge Date',    width_usr: '0',   width_cha: '80px',  width_fin : '9%'},
+  {row: 'challenge.paymentmethod',  type: 'char', header: 'Payment Method',    width_usr: '0',   width_cha: '90px',  width_fin : '8%'},
+  {row: 'challenge.receipt',        type: 'char', header: 'Receipt',           width_usr: '0',   width_cha: '50px',  width_fin : '8%'},
+  {row: 'challenge.receiptdate',    type: 'date', header: 'Receipt Date',      width_usr: '0',   width_cha: '80px',  width_fin : '9%'},
+  {row: 'challenge.receiptmethod',  type: 'char', header: 'Receipt Method',    width_usr: '0',   width_cha: '90px',  width_fin : '8%'},
+  {row: 'challenge.deliverydate',   type: 'date', header: 'Delivery Date',     width_usr: '0',   width_cha: '80px',  width_fin : '0'},
+  {row: 'challenge.deliverymethod', type: 'char', header: 'Delivery Method',   width_usr: '0',   width_cha: '90px',  width_fin : '0'},
+  {row: 'challenge.collectiondate', type: 'date', header: 'Collection Date',   width_usr: '0',   width_cha: '80px',  width_fin : '0'},
+  {row: 'challenge.comment',        type: 'char', header: 'Challenge Comment', width_usr: '0',   width_cha: '100px', width_fin : '13%'}
 ]
 
 export default class Admin extends Component {
@@ -101,16 +102,17 @@ export default class Admin extends Component {
 
     const userHeaders = (
       <TableRow>
-        {columns.filter(column => column.row.indexOf('user.') === 0).map((column, index) =>
-          <TableHeaderColumn key={index}>{column.header}</TableHeaderColumn>
+        {columns.filter(column => column.width_usr !== '0').map((column, index) =>
+          <TableHeaderColumn key={index} style={{width: column.width_usr}}>{column.header}</TableHeaderColumn>
         )}
+        <TableHeaderColumn key='dummy' style={{width: '1%'}} />
       </TableRow>
     )
 
     const users = this.props.users.map((user, index) =>
       <TableRow key={index}>
-        {columns.filter(column => column.row.indexOf('user.') === 0).map((column, index_c) =>
-          <TableRowColumn key={index_c} style={{width: column.width}} data-user-id={user._id}>
+        {columns.filter(column => column.width_usr !== '0').map((column, index_c) =>
+          <TableRowColumn key={index_c} style={{width: column.width_usr}} data-user-id={user._id}>
             {(column.type === 'date') ? this.dateFormat(eval(column.row)) : eval(column.row)}
           </TableRowColumn>
         )}
@@ -118,34 +120,44 @@ export default class Admin extends Component {
     )
 
     const userColumns = {
-      'user': columns.filter(column => column.row.indexOf('user.') === 0 && column.row.split('.').length === 2).map(column => column.row.split('.')[1])
+      'user': columns.filter(column => column.width_usr !== '0' && column.row.split('.').length === 2)
+                      .map(column => column.row.split('.')[1])
+                      .concat(['passwd'])
     }
 
     const challengeHeaders = (
       <TableRow>
-        {columns.filter(column => column.visicha).map((column, index) =>
-          <TableHeaderColumn key={index} style={{width: column.width}}>{column.header}</TableHeaderColumn>
+        {columns.filter(column => column.width_cha !== '0').map((column, index) =>
+          <TableHeaderColumn key={index} style={{width: column.width_cha}}>{column.header}</TableHeaderColumn>
         )}
       </TableRow>
     )
 
-    const challenges = this.props.users.map(user =>
-      user.challenges.map((challenge, index) =>
-        <TableRow key={index}>
-          {columns.filter(column => column.visicha).map((column, index) =>
-            <TableRowColumn key={index} style={{width: column.width}}>
-              {(column.type === 'date') ? this.dateFormat(eval(column.row)) : eval(column.row)}
-            </TableRowColumn>
-          )}
-        </TableRow>
+    const challenges = (
+      this.props.users.filter(user => user.lastname.indexOf(this.props.filter.name) > -1 || user.firstname.indexOf(this.props.filter.name) > -1).map(user =>
+        user.challenges.map((challenge, index) =>
+          <TableRow key={index}>
+            {columns.filter(column => column.width_cha !== '0').map((column, index_c) =>
+              <TableRowColumn key={index_c} style={{width: column.width_cha}} data-user-id={user._id} data-challenge-id={challenge._id}>
+                {(column.type === 'date') ? this.dateFormat(eval(column.row)) : eval(column.row)}
+              </TableRowColumn>
+            )}
+          </TableRow>
+        )
       )
     )
 
+    const challengeColumns = {
+      'user': columns.filter(column => column.row.indexOf('user.') === 0 && column.width_cha !== '0').map(column => column.row.split('.')[1]),
+      'challenge': columns.filter(column => column.row.indexOf('challenge.') === 0 && column.width_cha !== '0').map(column => column.row.split('.')[1])
+    }
+
     const financeHeaders = (
       <TableRow>
-        {columns.filter(column => column.visifin).map((column, index) =>
-          <TableHeaderColumn key={index}>{column.header}</TableHeaderColumn>
+        {columns.filter(column => column.width_fin !== '0').map((column, index) =>
+          <TableHeaderColumn key={index} style={{width: column.width_fin}}>{column.header}</TableHeaderColumn>
         )}
+        <TableHeaderColumn key='dummy' style={{width: '1%'}} />
       </TableRow>
     )
 
@@ -153,8 +165,8 @@ export default class Admin extends Component {
       this.props.users.filter(user => user.lastname.indexOf(this.props.filter.name) > -1 || user.firstname.indexOf(this.props.filter.name) > -1).map(user =>
         user.challenges.filter(challenge => ! this.props.filter.unpaid || ! challenge.receiptdate).map((challenge, index) =>
           <TableRow key={index}>
-            {columns.filter(column => column.visifin).map((column, index) =>
-              <TableRowColumn key={index} style={{width: column.width}} data-user-id={user._id} data-challenge-id={challenge._id}>
+            {columns.filter(column => column.width_fin !== '0').map((column, index_c) =>
+              <TableRowColumn key={index_c} style={{width: column.width_fin}} data-user-id={user._id} data-challenge-id={challenge._id}>
                 {(column.type === 'date') ? this.dateFormat(eval(column.row)) : eval(column.row)}
               </TableRowColumn>
             )}
@@ -164,8 +176,8 @@ export default class Admin extends Component {
     )
 
     const financeColumns = {
-      'user': columns.filter(column => column.row.indexOf('user.') === 0 && column.visifin).map(column => column.row.split('.')[1]),
-      'challenge': columns.filter(column => column.row.indexOf('challenge.') === 0 && column.visifin).map(column => column.row.split('.')[1])
+      'user': columns.filter(column => column.row.indexOf('user.') === 0 && column.width_fin !== '0').map(column => column.row.split('.')[1]),
+      'challenge': columns.filter(column => column.row.indexOf('challenge.') === 0 && column.width_fin !== '0').map(column => column.row.split('.')[1])
     }
 
     const actions = (updateColumns) => [
@@ -192,12 +204,76 @@ export default class Admin extends Component {
         onRequestClose={e => this.handleClose()}
       >
         <TextField
+          name='userid'
+          floatingLabelText="User ID"
+          value={this.props.user.userid}
+          underlineStyle={styles.underlineStyle}
+          onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
+        /><br />
+        <TextField
+          name='passwd'
+          floatingLabelText="Password"
+          floatingLabelFixed={true}
+          type='password'
+          hintText={dict[this.props.lang].password_hint}
+          value={this.props.user.passwd}
+          underlineStyle={styles.underlineStyle}
+          onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
+        /><br />
+        <TextField
           name='lastname'
           floatingLabelText="Last Name"
           value={this.props.user.lastname}
           underlineStyle={styles.underlineStyle}
-          disabled={true}
+          onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
+          style={styles.nameField}
+        />
+        <TextField
+          name='firstname'
+          floatingLabelText="First Name"
+          value={this.props.user.firstname}
+          underlineStyle={styles.underlineStyle}
+          onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
+          style={styles.nameField}
         /><br />
+        <TextField
+          name='lastname_kana'
+          floatingLabelText="Last Name (Kana)"
+          value={this.props.user.lastname_kana}
+          underlineStyle={styles.underlineStyle}
+          onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
+          style={styles.nameField}
+        />
+        <TextField
+          name='firstname_kana'
+          floatingLabelText="First Name (Kana)"
+          value={this.props.user.firstname_kana}
+          underlineStyle={styles.underlineStyle}
+          onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
+          style={styles.nameField}
+        /><br />
+        <TextField
+          name='phone'
+          floatingLabelText="Phone"
+          value={this.props.user.phone}
+          underlineStyle={styles.underlineStyle}
+          onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
+        /><br />
+        <TextField
+          name='postal'
+          floatingLabelText="Postal"
+          value={this.props.user.postal}
+          underlineStyle={styles.underlineStyle}
+          onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
+        /><br />
+        <TextField
+          name='address'
+          floatingLabelText="Address"
+          value={this.props.user.address}
+          fullWidth={true}
+          underlineStyle={styles.underlineStyle}
+          onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
+        />
         <TextField
           name='comment'
           floatingLabelText="Comment"
@@ -205,6 +281,91 @@ export default class Admin extends Component {
           fullWidth={true}
           underlineStyle={styles.underlineStyle}
           onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
+        />
+      </Dialog>
+    )
+
+    const updateChallengeDialog = (
+      <Dialog
+        title="Update Challenge Fields"
+        actions={actions(challengeColumns)}
+        modal={false}
+        open={this.props.open && this.props.tab === 'challenges'}
+        autoScrollBodyContent={true}
+        onRequestClose={e => this.handleClose()}
+      >
+        <TextField
+          name='lastname'
+          floatingLabelText="Last Name"
+          value={this.props.user.lastname}
+          underlineStyle={styles.underlineStyle}
+          disabled={true}
+          style={styles.nameField}
+        />
+        <TextField
+          name='firstname'
+          floatingLabelText="First Name"
+          value={this.props.user.firstname}
+          underlineStyle={styles.underlineStyle}
+          disabled={true}
+          style={styles.nameField}
+        /><br />
+        <TextField
+          name='challengename'
+          floatingLabelText="Challenge Name"
+          value={this.props.challenge.challengename}
+          underlineStyle={styles.underlineStyle}
+          onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
+        />
+        <DatePicker
+          name='challengedate'
+          floatingLabelText="Challenge Date"
+          value={(! this.props.challenge.challengedate) ? null : new Date(this.props.challenge.challengedate)}
+          mode="landscape"
+          underlineStyle={styles.underlineStyle}
+          onChange={(e, v) => this.props.inputChallengeData("challengedate", v.toString())}
+        />
+        <SelectField
+          name="paymentmethod"
+          floatingLabelText="Payment Method"
+          value={this.props.challenge.receiptmethod}
+          onChange={(e, i, v) => this.props.inputChallengeData("paymentmethod", v)}
+        >
+          <MenuItem value="creditcard" primaryText="Credit Card" />
+          <MenuItem value="paypal" primaryText="PayPal" />
+          <MenuItem value="banktransfer" primaryText="Bank Transfer" />
+          <MenuItem value="postaltransfer" primaryText="Postal Transfer" />
+        </SelectField>
+        <DatePicker
+          name='deliverydate'
+          floatingLabelText="Delivery Date"
+          value={(! this.props.challenge.deliverydate) ? null : new Date(this.props.challenge.deliverydate)}
+          mode="landscape"
+          underlineStyle={styles.underlineStyle}
+          onChange={(e, v) => this.props.inputChallengeData("deliverydate", v.toString())}
+        />
+        <TextField
+          name='deliverymethod'
+          floatingLabelText="Delivery Method"
+          value={this.props.challenge.deliverymethod}
+          underlineStyle={styles.underlineStyle}
+          onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
+        />
+        <DatePicker
+          name='collectiondate'
+          floatingLabelText="Collection Date"
+          value={(! this.props.challenge.collectiondate) ? null : new Date(this.props.challenge.collectiondate)}
+          mode="landscape"
+          underlineStyle={styles.underlineStyle}
+          onChange={(e, v) => this.props.inputChallengeData("collectiondate", v.toString())}
+        />
+        <TextField
+          name='comment'
+          floatingLabelText="Comment"
+          value={this.props.challenge.comment}
+          fullWidth={true}
+          underlineStyle={styles.underlineStyle}
+          onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
         />
       </Dialog>
     )
@@ -263,7 +424,7 @@ export default class Admin extends Component {
           value={this.props.challenge.receiptmethod}
           onChange={(e, i, v) => this.props.inputChallengeData("receiptmethod", v)}
         >
-          <MenuItem value="crupdatecard" primaryText="Crupdate Card" />
+          <MenuItem value="creditcard" primaryText="Credit Card" />
           <MenuItem value="paypal" primaryText="PayPal" />
           <MenuItem value="banktransfer" primaryText="Bank Transfer" />
           <MenuItem value="postaltransfer" primaryText="Postal Transfer" />
@@ -307,7 +468,17 @@ export default class Admin extends Component {
           </Tab>
           <Tab label="Challenges" value="challenges">
             <div>
-              <Table height="70vh" bodyStyle={{overflow:'visible'}}>
+              <div style={{display: 'flex', flexDirection: 'row', alignItems: 'baseline'}}>
+                <TextField
+                  name='name'
+                  floatingLabelText="Filter: Name"
+                  value={this.props.filter.name}
+                  underlineStyle={styles.underlineStyle}
+                  onChange={e => this.props.changeFilter(e.target.name, e.target.value)}
+                  style={styles.marginLeft20}
+                />
+              </div>
+              <Table height="70vh" bodyStyle={{overflow:'visible'}} onCellClick={(rowNumber, columnId, e) => this.cellClick(rowNumber, columnId, e)}>
                 <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                   {challengeHeaders}
                 </TableHeader>
@@ -315,25 +486,26 @@ export default class Admin extends Component {
                   {challenges}
                 </TableBody>
               </Table>
+              {updateChallengeDialog}
             </div>
           </Tab>
           <Tab label="Finance" value="finance">
             <div>
-            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'baseline'}}>
-              <TextField
-                name='name'
-                floatingLabelText="Filter: Name"
-                value={this.props.filter.name}
-                underlineStyle={styles.underlineStyle}
-                onChange={e => this.props.changeFilter(e.target.name, e.target.value)}
-                style={styles.marginLeft20}
-              />
-              <Checkbox
-                label="Unpaid"
-                checked={this.props.filter.unpaid}
-                onCheck={(e, v) => this.props.changeFilter('unpaid', v)}
-                style={styles.marginLeft20}
-              />
+              <div style={{display: 'flex', flexDirection: 'row', alignItems: 'baseline'}}>
+                <TextField
+                  name='name'
+                  floatingLabelText="Filter: Name"
+                  value={this.props.filter.name}
+                  underlineStyle={styles.underlineStyle}
+                  onChange={e => this.props.changeFilter(e.target.name, e.target.value)}
+                  style={styles.marginLeft20}
+                />
+                <Checkbox
+                  label="Unpaid"
+                  checked={this.props.filter.unpaid}
+                  onCheck={(e, v) => this.props.changeFilter('unpaid', v)}
+                  style={styles.marginLeft20}
+                />
               </div>
               <Table height="70vh" onCellClick={(rowNumber, columnId, e) => this.cellClick(rowNumber, columnId, e)}>
                 <TableHeader displaySelectAll={false} adjustForCheckbox={false}>

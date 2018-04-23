@@ -1,4 +1,4 @@
-import {orange500, blue500, grey600, cyan500} from 'material-ui/styles/colors'
+import {orange500, blue500, grey600, cyan500, white, pinkA200} from 'material-ui/styles/colors'
 import {typography} from 'material-ui/styles'
 
 const styles = {
@@ -10,16 +10,16 @@ const styles = {
     color: orange500,
   },
   underlineStyle: {
-    borderColor: blue500,
+    borderColor: '#017ba4',
   },
   floatingLabelStyle: {
     color: grey600,
   },
   floatingLabelFocusStyle: {
-    color: cyan500,
+    color: '#017ba4',
   },
   error: {
-    color: 'red'
+    color: pinkA200
   },
   navigation: {
     fontSize: 15,
@@ -27,6 +27,10 @@ const styles = {
     color: grey600,
     paddingBottom: 15,
     display: 'block'
+  },
+  dialogTitle: {
+    color: white,
+    backgroundColor: '#017ba4'
   },
   title: {
     fontSize: 24,
@@ -77,6 +81,12 @@ const styles = {
   flexRow: {
     display: 'flex',
     flexDirection: 'row'
+  },
+  appbar: {
+    backgroundImage: `url(${'icons/sok_logo.png'})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'right center',
+    backgroundSize: 'auto 60%'
   }
 }
 export default styles

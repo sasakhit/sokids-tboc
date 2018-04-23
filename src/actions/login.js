@@ -29,7 +29,7 @@ export const login = ( userid, passwd ) => {
           window.localStorage['tboc_id'] = userid
           window.localStorage['tboc_auth_token'] = r.token
 
-          const jump = (userid === 'admin') ? 'admin' : '/home'
+          const jump = (userid === 'sokids') ? 'admin' : '/home'
           dispatch(push(jump))
           return
         }

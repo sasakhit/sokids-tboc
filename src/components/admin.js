@@ -22,28 +22,34 @@ import Dialog from 'material-ui/Dialog'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import Checkbox from 'material-ui/Checkbox'
+import Drawer from 'material-ui/Drawer'
+import ActionExitToApp from 'material-ui/svg-icons/action/exit-to-app'
+import ActionLanguage from 'material-ui/svg-icons/action/language'
 
 const columns = [
-  {row: 'user.userid',              type: 'char', header: 'User ID',           width_usr: '15%', width_cha: '130px', width_fin : '15%'},
-  {row: 'user.challenges.length',   type: 'char', header: 'Count',             width_usr: '5%',  width_cha: '0',     width_fin : '0'},
-  {row: 'user.lastname',            type: 'char', header: 'Last Name',         width_usr: '8%',  width_cha: '70px',  width_fin : '8%'},
-  {row: 'user.firstname',           type: 'char', header: 'First Name',        width_usr: '8%',  width_cha: '70px',  width_fin : '8%'},
-  {row: 'user.lastname_kana',       type: 'char', header: 'Last (Kana)',       width_usr: '8%',  width_cha: '0',     width_fin : '0'},
-  {row: 'user.firstname_kana',      type: 'char', header: 'First (Kana)',      width_usr: '8%',  width_cha: '0',     width_fin : '0'},
-  {row: 'user.phone',               type: 'char', header: 'Phone',             width_usr: '10%', width_cha: '0',     width_fin : '0'},
-  {row: 'user.postal',              type: 'char', header: 'Postal',            width_usr: '8%',  width_cha: '0',     width_fin : '0'},
-  {row: 'user.address',             type: 'char', header: 'Address',           width_usr: '20%', width_cha: '0',     width_fin : '0'},
-  {row: 'user.comment',             type: 'char', header: 'User Comment',      width_usr: '10%', width_cha: '0',     width_fin : '0'},
-  {row: 'challenge.challengename',  type: 'char', header: 'Challenge Name',    width_usr: '0',   width_cha: '100px', width_fin : '14%'},
-  {row: 'challenge.challengedate',  type: 'date', header: 'Challenge Date',    width_usr: '0',   width_cha: '80px',  width_fin : '9%'},
-  {row: 'challenge.paymentmethod',  type: 'char', header: 'Payment Method',    width_usr: '0',   width_cha: '90px',  width_fin : '8%'},
-  {row: 'challenge.receipt',        type: 'char', header: 'Receipt',           width_usr: '0',   width_cha: '50px',  width_fin : '8%'},
-  {row: 'challenge.receiptdate',    type: 'date', header: 'Receipt Date',      width_usr: '0',   width_cha: '80px',  width_fin : '9%'},
-  {row: 'challenge.receiptmethod',  type: 'char', header: 'Receipt Method',    width_usr: '0',   width_cha: '90px',  width_fin : '8%'},
-  {row: 'challenge.deliverydate',   type: 'date', header: 'Delivery Date',     width_usr: '0',   width_cha: '80px',  width_fin : '0'},
-  {row: 'challenge.deliverymethod', type: 'char', header: 'Delivery Method',   width_usr: '0',   width_cha: '90px',  width_fin : '0'},
-  {row: 'challenge.collectiondate', type: 'date', header: 'Collection Date',   width_usr: '0',   width_cha: '80px',  width_fin : '0'},
-  {row: 'challenge.comment',        type: 'char', header: 'Challenge Comment', width_usr: '0',   width_cha: '100px', width_fin : '13%'}
+  {row:  'user.userid',              type:  'char',  header:  'userid',         width_usr: '15%', width_cha: '0',     width_fin : '0'},
+  {row:  'user.challenges.length',   type:  'char',  header:  'count',          width_usr: '5%',  width_cha: '0',     width_fin : '0'},
+  {row:  'user.lastname',            type:  'char',  header:  'lastname',       width_usr: '8%',  width_cha: '70px',  width_fin : '8%'},
+  {row:  'user.firstname',           type:  'char',  header:  'firstname',      width_usr: '8%',  width_cha: '70px',  width_fin : '8%'},
+  {row:  'user.lastname_kana',       type:  'char',  header:  'lastname_kana',  width_usr: '8%',  width_cha: '0',     width_fin : '0'},
+  {row:  'user.firstname_kana',      type:  'char',  header:  'firstname_kana', width_usr: '8%',  width_cha: '0',     width_fin : '0'},
+  {row:  'user.phone',               type:  'char',  header:  'phone',          width_usr: '10%', width_cha: '0',     width_fin : '0'},
+  {row:  'user.postal',              type:  'char',  header:  'postal',         width_usr: '8%',  width_cha: '0',     width_fin : '0'},
+  {row:  'user.address',             type:  'char',  header:  'address',        width_usr: '20%', width_cha: '0',     width_fin : '0'},
+  {row:  'user.comment',             type:  'char',  header:  'comment',        width_usr: '10%', width_cha: '0',     width_fin : '0'},
+  {row:  'challenge.challengename',  type:  'char',  header:  'challengename',  width_usr: '0',   width_cha: '100px', width_fin : '14%'},
+  {row:  'challenge.challengedate',  type:  'date',  header:  'challengedate',  width_usr: '0',   width_cha: '80px',  width_fin : '9%'},
+  {row:  'challenge.paymentmethod',  type:  'char',  header:  'paymentmethod',  width_usr: '0',   width_cha: '90px',  width_fin : '8%'},
+  {row:  'challenge.receipt',        type:  'char',  header:  'receipt_short',  width_usr: '0',   width_cha: '50px',  width_fin : '8%'},
+  {row:  'challenge.receiptdate',    type:  'date',  header:  'receiptdate',    width_usr: '0',   width_cha: '80px',  width_fin : '9%',
+   row2: 'challenge.receiptuser',    type2: 'char',  header2: 'receiptuser'},
+  {row:  'challenge.receiptmethod',  type:  'char',  header:  'receiptmethod',  width_usr: '0',   width_cha: '0',     width_fin : '0'},
+  {row:  'challenge.deliverydate',   type:  'date',  header:  'deliverydate',   width_usr: '0',   width_cha: '80px',  width_fin : '0',
+   row2: 'challenge.deliveryuser',   type2: 'char',  header2: 'deliveryuser'},
+  {row:  'challenge.deliverymethod', type:  'char',  header:  'deliverymethod', width_usr: '0',   width_cha: '90px',  width_fin : '0'},
+  {row:  'challenge.collectiondate', type:  'date',  header:  'collectiondate', width_usr: '0',   width_cha: '80px',  width_fin : '0',
+   row2: 'challenge.collectionuser', type2: 'char',  header2: 'collectionuser'},
+  {row:  'challenge.comment',        type:  'char',  header:  'comment',        width_usr: '0',   width_cha: '100px', width_fin : '13%'}
 ]
 
 export default class Admin extends Component {
@@ -103,7 +109,9 @@ export default class Admin extends Component {
     const userHeaders = (
       <TableRow>
         {columns.filter(column => column.width_usr !== '0').map((column, index) =>
-          <TableHeaderColumn key={index} style={{width: column.width_usr}}>{column.header}</TableHeaderColumn>
+          <TableHeaderColumn key={index} style={{width: column.width_usr}}>
+            {dict[this.props.lang][column.header]}
+          </TableHeaderColumn>
         )}
         <TableHeaderColumn key='dummy' style={{width: '1%'}} />
       </TableRow>
@@ -128,7 +136,10 @@ export default class Admin extends Component {
     const challengeHeaders = (
       <TableRow>
         {columns.filter(column => column.width_cha !== '0').map((column, index) =>
-          <TableHeaderColumn key={index} style={{width: column.width_cha}}>{column.header}</TableHeaderColumn>
+          <TableHeaderColumn key={index} style={{width: column.width_cha}}>
+            {dict[this.props.lang][column.header]}<br />
+            {dict[this.props.lang][column.header2]}
+          </TableHeaderColumn>
         )}
       </TableRow>
     )
@@ -139,7 +150,8 @@ export default class Admin extends Component {
           <TableRow key={index}>
             {columns.filter(column => column.width_cha !== '0').map((column, index_c) =>
               <TableRowColumn key={index_c} style={{width: column.width_cha}} data-user-id={user._id} data-challenge-id={challenge._id}>
-                {(column.type === 'date') ? this.dateFormat(eval(column.row)) : eval(column.row)}
+                {(column.type === 'date') ? this.dateFormat(eval(column.row)) : eval(column.row)}<br />
+                {(column.type2 === 'date') ? this.dateFormat(eval(column.row2)) : eval(column.row2)}
               </TableRowColumn>
             )}
           </TableRow>
@@ -149,13 +161,17 @@ export default class Admin extends Component {
 
     const challengeColumns = {
       'user': columns.filter(column => column.row.indexOf('user.') === 0 && column.width_cha !== '0').map(column => column.row.split('.')[1]),
-      'challenge': columns.filter(column => column.row.indexOf('challenge.') === 0 && column.width_cha !== '0').map(column => column.row.split('.')[1])
+      'challenge': columns.filter(column => column.row.indexOf('challenge.') === 0 && column.width_cha !== '0')
+                          .map(column => (column.row2) ? [column.row.split('.')[1], column.row2.split('.')[1]] : column.row.split('.')[1])
     }
 
     const financeHeaders = (
       <TableRow>
         {columns.filter(column => column.width_fin !== '0').map((column, index) =>
-          <TableHeaderColumn key={index} style={{width: column.width_fin}}>{column.header}</TableHeaderColumn>
+          <TableHeaderColumn key={index} style={{width: column.width_fin}}>
+            {dict[this.props.lang][column.header]}<br />
+            {dict[this.props.lang][column.header2]}
+          </TableHeaderColumn>
         )}
         <TableHeaderColumn key='dummy' style={{width: '1%'}} />
       </TableRow>
@@ -167,7 +183,8 @@ export default class Admin extends Component {
           <TableRow key={index}>
             {columns.filter(column => column.width_fin !== '0').map((column, index_c) =>
               <TableRowColumn key={index_c} style={{width: column.width_fin}} data-user-id={user._id} data-challenge-id={challenge._id}>
-                {(column.type === 'date') ? this.dateFormat(eval(column.row)) : eval(column.row)}
+                {(column.type === 'date') ? this.dateFormat(eval(column.row)) : eval(column.row)}<br />
+                {(column.type2 === 'date') ? this.dateFormat(eval(column.row2)) : eval(column.row2)}
               </TableRowColumn>
             )}
           </TableRow>
@@ -177,26 +194,29 @@ export default class Admin extends Component {
 
     const financeColumns = {
       'user': columns.filter(column => column.row.indexOf('user.') === 0 && column.width_fin !== '0').map(column => column.row.split('.')[1]),
-      'challenge': columns.filter(column => column.row.indexOf('challenge.') === 0 && column.width_fin !== '0').map(column => column.row.split('.')[1])
+      'challenge': columns.filter(column => column.row.indexOf('challenge.') === 0 && column.width_fin !== '0')
+                          .map(column => (column.row2) ? [column.row.split('.')[1], column.row2.split('.')[1]] : column.row.split('.')[1])
     }
 
     const actions = (updateColumns) => [
-      <FlatButton
-        label="Cancel"
+      <RaisedButton
+        label={dict[this.props.lang].cancel}
         primary={true}
+        style={styles.margin10}
         onClick={e => this.handleClose()}
       />,
-      <FlatButton
-        label="Submit"
-        primary={true}
-        keyboardFocused={true}
+      <RaisedButton
+        label={dict[this.props.lang].update}
+        secondary={true}
+        style={styles.margin10}
         onClick={e => this.props.updateAdminData(this.props.user, this.props.challenge, updateColumns)}
       />,
     ]
 
     const updateUserDialog = (
       <Dialog
-        title="Update User Fields"
+        title={dict[this.props.lang].updateUserFields}
+        titleStyle={styles.dialogTitle}
         actions={actions(userColumns)}
         modal={false}
         open={this.props.open && this.props.tab === 'users'}
@@ -205,14 +225,14 @@ export default class Admin extends Component {
       >
         <TextField
           name='userid'
-          floatingLabelText="User ID"
+          floatingLabelText={dict[this.props.lang].userid}
           value={this.props.user.userid}
           underlineStyle={styles.underlineStyle}
           onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
         /><br />
         <TextField
           name='passwd'
-          floatingLabelText="Password"
+          floatingLabelText={dict[this.props.lang].password}
           floatingLabelFixed={true}
           type='password'
           hintText={dict[this.props.lang].password_hint}
@@ -222,7 +242,7 @@ export default class Admin extends Component {
         /><br />
         <TextField
           name='lastname'
-          floatingLabelText="Last Name"
+          floatingLabelText={dict[this.props.lang].lastname}
           value={this.props.user.lastname}
           underlineStyle={styles.underlineStyle}
           onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
@@ -230,7 +250,7 @@ export default class Admin extends Component {
         />
         <TextField
           name='firstname'
-          floatingLabelText="First Name"
+          floatingLabelText={dict[this.props.lang].firstname}
           value={this.props.user.firstname}
           underlineStyle={styles.underlineStyle}
           onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
@@ -238,7 +258,7 @@ export default class Admin extends Component {
         /><br />
         <TextField
           name='lastname_kana'
-          floatingLabelText="Last Name (Kana)"
+          floatingLabelText={dict[this.props.lang].lastname_kana}
           value={this.props.user.lastname_kana}
           underlineStyle={styles.underlineStyle}
           onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
@@ -246,7 +266,7 @@ export default class Admin extends Component {
         />
         <TextField
           name='firstname_kana'
-          floatingLabelText="First Name (Kana)"
+          floatingLabelText={dict[this.props.lang].firstname_kana}
           value={this.props.user.firstname_kana}
           underlineStyle={styles.underlineStyle}
           onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
@@ -254,21 +274,21 @@ export default class Admin extends Component {
         /><br />
         <TextField
           name='phone'
-          floatingLabelText="Phone"
+          floatingLabelText={dict[this.props.lang].phone}
           value={this.props.user.phone}
           underlineStyle={styles.underlineStyle}
           onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
         /><br />
         <TextField
           name='postal'
-          floatingLabelText="Postal"
+          floatingLabelText={dict[this.props.lang].postal}
           value={this.props.user.postal}
           underlineStyle={styles.underlineStyle}
           onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
         /><br />
         <TextField
           name='address'
-          floatingLabelText="Address"
+          floatingLabelText={dict[this.props.lang].address}
           value={this.props.user.address}
           fullWidth={true}
           underlineStyle={styles.underlineStyle}
@@ -276,7 +296,7 @@ export default class Admin extends Component {
         />
         <TextField
           name='comment'
-          floatingLabelText="Comment"
+          floatingLabelText={dict[this.props.lang].comment}
           value={this.props.user.comment}
           fullWidth={true}
           underlineStyle={styles.underlineStyle}
@@ -287,7 +307,8 @@ export default class Admin extends Component {
 
     const updateChallengeDialog = (
       <Dialog
-        title="Update Challenge Fields"
+        title={dict[this.props.lang].updateChallengeFields}
+        titleStyle={styles.dialogTitle}
         actions={actions(challengeColumns)}
         modal={false}
         open={this.props.open && this.props.tab === 'challenges'}
@@ -296,7 +317,7 @@ export default class Admin extends Component {
       >
         <TextField
           name='lastname'
-          floatingLabelText="Last Name"
+          floatingLabelText={dict[this.props.lang].lastname}
           value={this.props.user.lastname}
           underlineStyle={styles.underlineStyle}
           disabled={true}
@@ -304,64 +325,76 @@ export default class Admin extends Component {
         />
         <TextField
           name='firstname'
-          floatingLabelText="First Name"
+          floatingLabelText={dict[this.props.lang].firstname}
           value={this.props.user.firstname}
           underlineStyle={styles.underlineStyle}
           disabled={true}
           style={styles.nameField}
-        /><br />
-        <TextField
-          name='challengename'
-          floatingLabelText="Challenge Name"
-          value={this.props.challenge.challengename}
-          underlineStyle={styles.underlineStyle}
-          onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
         />
-        <DatePicker
-          name='challengedate'
-          floatingLabelText="Challenge Date"
-          value={(! this.props.challenge.challengedate) ? null : new Date(this.props.challenge.challengedate)}
-          mode="landscape"
-          underlineStyle={styles.underlineStyle}
-          onChange={(e, v) => this.props.inputChallengeData("challengedate", v.toString())}
-        />
-        <SelectField
-          name="paymentmethod"
-          floatingLabelText="Payment Method"
-          value={this.props.challenge.receiptmethod}
-          onChange={(e, i, v) => this.props.inputChallengeData("paymentmethod", v)}
-        >
-          <MenuItem value="creditcard" primaryText="Credit Card" />
-          <MenuItem value="paypal" primaryText="PayPal" />
-          <MenuItem value="banktransfer" primaryText="Bank Transfer" />
-          <MenuItem value="postaltransfer" primaryText="Postal Transfer" />
-        </SelectField>
-        <DatePicker
-          name='deliverydate'
-          floatingLabelText="Delivery Date"
-          value={(! this.props.challenge.deliverydate) ? null : new Date(this.props.challenge.deliverydate)}
-          mode="landscape"
-          underlineStyle={styles.underlineStyle}
-          onChange={(e, v) => this.props.inputChallengeData("deliverydate", v.toString())}
-        />
+        <div style={styles.flexRow}>
+          <TextField
+            name='challengename'
+            floatingLabelText={dict[this.props.lang].challengename}
+            value={this.props.challenge.challengename}
+            underlineStyle={styles.underlineStyle}
+            onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
+            style={styles.marginRight20}
+          />
+          <DatePicker
+            name='challengedate'
+            floatingLabelText={dict[this.props.lang].challengedate}
+            value={(! this.props.challenge.challengedate) ? null : new Date(this.props.challenge.challengedate)}
+            mode="landscape"
+            underlineStyle={styles.underlineStyle}
+            onChange={(e, v) => this.props.inputChallengeData("challengedate", v.toString())}
+          />
+        </div>
+        <div style={styles.flexRow}>
+          <DatePicker
+            name='deliverydate'
+            floatingLabelText={dict[this.props.lang].deliverydate}
+            value={(! this.props.challenge.deliverydate) ? null : new Date(this.props.challenge.deliverydate)}
+            mode="landscape"
+            underlineStyle={styles.underlineStyle}
+            onChange={(e, v) => this.props.inputChallengeData("deliverydate", v.toString())}
+            style={styles.marginRight20}
+          />
+          <TextField
+            name='deliveryuser'
+            floatingLabelText={dict[this.props.lang].deliveryuser}
+            value={this.props.challenge.deliveryuser}
+            underlineStyle={styles.underlineStyle}
+            onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
+          />
+        </div>
         <TextField
           name='deliverymethod'
-          floatingLabelText="Delivery Method"
+          floatingLabelText={dict[this.props.lang].deliverymethod}
           value={this.props.challenge.deliverymethod}
           underlineStyle={styles.underlineStyle}
           onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
         />
-        <DatePicker
-          name='collectiondate'
-          floatingLabelText="Collection Date"
-          value={(! this.props.challenge.collectiondate) ? null : new Date(this.props.challenge.collectiondate)}
-          mode="landscape"
-          underlineStyle={styles.underlineStyle}
-          onChange={(e, v) => this.props.inputChallengeData("collectiondate", v.toString())}
-        />
+        <div style={styles.flexRow}>
+          <DatePicker
+            name='collectiondate'
+            floatingLabelText={dict[this.props.lang].collectiondate}
+            value={(! this.props.challenge.collectiondate) ? null : new Date(this.props.challenge.collectiondate)}
+            mode="landscape"
+            underlineStyle={styles.underlineStyle}
+            onChange={(e, v) => this.props.inputChallengeData("collectiondate", v.toString())}
+            style={styles.marginRight20}
+          />
+          <TextField
+            name='collectionuser'
+            floatingLabelText={dict[this.props.lang].collectionuser}
+            value={this.props.challenge.collectionuser}
+            underlineStyle={styles.underlineStyle}
+            onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
+          />
+        </div>
         <TextField
           name='comment'
-          floatingLabelText="Comment"
+          floatingLabelText={dict[this.props.lang].comment}
           value={this.props.challenge.comment}
           fullWidth={true}
           underlineStyle={styles.underlineStyle}
@@ -372,7 +405,8 @@ export default class Admin extends Component {
 
     const updateFinanceDialog = (
       <Dialog
-        title="Update Finance Fields"
+        title={dict[this.props.lang].updateFinanceFields}
+        titleStyle={styles.dialogTitle}
         actions={actions(financeColumns)}
         modal={false}
         open={this.props.open && this.props.tab === 'finance'}
@@ -381,7 +415,7 @@ export default class Admin extends Component {
       >
         <TextField
           name='lastname'
-          floatingLabelText="Last Name"
+          floatingLabelText={dict[this.props.lang].lastname}
           value={this.props.user.lastname}
           underlineStyle={styles.underlineStyle}
           disabled={true}
@@ -389,7 +423,7 @@ export default class Admin extends Component {
         />
         <TextField
           name='firstname'
-          floatingLabelText="First Name"
+          floatingLabelText={dict[this.props.lang].firstname}
           value={this.props.user.firstname}
           underlineStyle={styles.underlineStyle}
           disabled={true}
@@ -397,41 +431,51 @@ export default class Admin extends Component {
         /><br />
         <TextField
           name='challengename'
-          floatingLabelText="Challenge Name"
+          floatingLabelText={dict[this.props.lang].challengename}
           value={this.props.challenge.challengename}
           underlineStyle={styles.underlineStyle}
           disabled={true}
         />
         <DatePicker
           name='challengedate'
-          floatingLabelText="Challenge Date"
+          floatingLabelText={dict[this.props.lang].challengedate}
           value={(! this.props.challenge.challengedate) ? null : new Date(this.props.challenge.challengedate)}
           mode="landscape"
           underlineStyle={styles.underlineStyle}
           disabled={true}
         />
-        <DatePicker
-          name='receiptdate'
-          floatingLabelText="Receipt Date"
-          value={(! this.props.challenge.receiptdate) ? null : new Date(this.props.challenge.receiptdate)}
-          mode="landscape"
-          underlineStyle={styles.underlineStyle}
-          onChange={(e, v) => this.props.inputChallengeData("receiptdate", v.toString())}
-        />
         <SelectField
-          name="receiptmethod"
-          floatingLabelText="Receipt Method"
-          value={this.props.challenge.receiptmethod}
-          onChange={(e, i, v) => this.props.inputChallengeData("receiptmethod", v)}
+          name="paymentmethod"
+          floatingLabelText={dict[this.props.lang].paymentmethod}
+          value={this.props.challenge.paymentmethod}
+          onChange={(e, i, v) => this.props.inputChallengeData("paymentmethod", v)}
         >
-          <MenuItem value="creditcard" primaryText="Credit Card" />
-          <MenuItem value="paypal" primaryText="PayPal" />
-          <MenuItem value="banktransfer" primaryText="Bank Transfer" />
-          <MenuItem value="postaltransfer" primaryText="Postal Transfer" />
+          <MenuItem value="creditcard" primaryText={dict[this.props.lang].creditcard} />
+          <MenuItem value="paypal" primaryText={dict[this.props.lang].paypal} />
+          <MenuItem value="banktransfer" primaryText={dict[this.props.lang].banktransfer} />
+          <MenuItem value="postaltransfer" primaryText={dict[this.props.lang].postaltransfer} />
         </SelectField>
+        <div style={styles.flexRow}>
+          <DatePicker
+            name='receiptdate'
+            floatingLabelText={dict[this.props.lang].receiptdate}
+            value={(! this.props.challenge.receiptdate) ? null : new Date(this.props.challenge.receiptdate)}
+            mode="landscape"
+            underlineStyle={styles.underlineStyle}
+            onChange={(e, v) => this.props.inputChallengeData("receiptdate", v.toString())}
+            style={styles.marginRight20}
+          />
+          <TextField
+            name='receiptuser'
+            floatingLabelText={dict[this.props.lang].receiptuser}
+            value={this.props.challenge.receiptuser}
+            underlineStyle={styles.underlineStyle}
+            onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
+          />
+        </div>
         <TextField
           name='comment'
-          floatingLabelText="Comment"
+          floatingLabelText={dict[this.props.lang].comment}
           value={this.props.challenge.comment}
           fullWidth={true}
           underlineStyle={styles.underlineStyle}
@@ -442,15 +486,30 @@ export default class Admin extends Component {
 
     return (
       <div>
+        <Drawer
+          docked={false}
+          open={this.props.drawer}
+          onRequestChange={() => this.props.openCloseDrawer(false)}
+        >
+          <MenuItem
+            onClick={e => {this.logout(); this.props.openCloseDrawer(false)}}
+            primaryText={dict[this.props.lang].logout}
+            leftIcon={<ActionExitToApp />} />
+          <MenuItem
+            onClick={e => {this.props.changeLang(dict[this.props.lang].langChange); this.props.openCloseDrawer(false)}}
+            primaryText={dict[this.props.lang].langChangeButton}
+            leftIcon={<ActionLanguage />} />
+        </Drawer>
         <AppBar
-          title={"TBOC - Admin"}
-          iconElementRight={<FlatButton label="Log Out" onClick={e => this.logout()} />}
+          title={dict[this.props.lang].adminTitle}
+          style={styles.appbar}
+          onLeftIconButtonClick={() => this.props.openCloseDrawer(true)}
         />
         <Tabs
           value={this.props.tab}
           onChange={value => tabChanged(value)}
         >
-          <Tab label="Users" value="users">
+          <Tab label={dict[this.props.lang].users} value="users">
             <div>
               <Table height="70vh" onCellClick={(rowNumber, columnId, e) => this.cellClick(rowNumber, columnId, e)}>
                 <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
@@ -466,7 +525,7 @@ export default class Admin extends Component {
               {updateUserDialog}
             </div>
           </Tab>
-          <Tab label="Challenges" value="challenges">
+          <Tab label={dict[this.props.lang].challenges} value="challenges">
             <div>
               <div style={{display: 'flex', flexDirection: 'row', alignItems: 'baseline'}}>
                 <TextField
@@ -489,7 +548,7 @@ export default class Admin extends Component {
               {updateChallengeDialog}
             </div>
           </Tab>
-          <Tab label="Finance" value="finance">
+          <Tab label={dict[this.props.lang].finance} value="finance">
             <div>
               <div style={{display: 'flex', flexDirection: 'row', alignItems: 'baseline'}}>
                 <TextField

@@ -20,10 +20,13 @@ const initialState = {
     paymentmethod: '',
     receipt: '',
     receiptdate: '',
+    receiptuser: '',
     receiptmethod: '',
     deliverydate: '',
+    deliveryuser: '',
     deliverymethod: '',
     collectiondate: '',
+    collectionuser: '',
     comment: ''
   },
   filter: {

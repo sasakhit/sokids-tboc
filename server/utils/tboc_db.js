@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const env = require('../env/tboc_db_env'); 
 mongoose.Promise = global.Promise;
 
-const mongoUri = `mongodb://${env.dbName}:${env.key}@${env.dbName}.documents.azure.com:${env.cosmosPort}/?ssl=true`;
+//const mongoUri = `mongodb://${env.dbName}:${env.key}@${env.dbName}.documents.azure.com:${env.cosmosPort}/?ssl=true`;
 //uri: 'mongodb://<cosmosdb-name>:<primary_master_key>@<cosmosdb-name>.documents.azure.com:10255/mean-dev?ssl=true&sslverifycertificate=false'
-//const mongoUri = `mongodb://127.0.0.1/${env.dbName}`;
+const mongoUri = `mongodb://127.0.0.1/${env.dbName}`;
 
 function connect() {
   return mongoose.connect(mongoUri, { useMongoClient: true });
@@ -13,15 +13,25 @@ function connect() {
 const Schema = mongoose.Schema;
 
 const ChallengeSchema = new Schema({
+  registrationdate: Date, //new
   challengename: String,
   challengedate: Date,
   paymentmethod: String,
   receipt: String,
   receiptdate: Date,
+  receiptuser: String, //new
   receiptmethod: String,
+  receiptamount: Number, //new
   deliverydate: Date,
   deliverymethod: String,
-  collectiondate: Date,
+  deliveryuser: String,
+  collectiondate: Date, //new
+  collectionuser: String, //new
+  strapdeliverydate: Date, //new
+  strapdeliveryuser: Date, //new
+  certificateno: String, //new
+  certificatedeliverydate: Date, //new
+  certificatedeliveryuser: String, //new
   comment: String
 }, {minimize: false})
 
@@ -37,6 +47,7 @@ const UserSchema = new Schema({
   postal: String,
   address: String,
   comment: String,
+  signupdate: Date, //new
   challenges: [ChallengeSchema]
 }, {minimize: false});
 const User = mongoose.model('User', UserSchema);

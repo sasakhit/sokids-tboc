@@ -22,6 +22,8 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton'
 import Dialog from 'material-ui/Dialog'
 import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
+import ActionExitToApp from 'material-ui/svg-icons/action/exit-to-app'
+import ActionLanguage from 'material-ui/svg-icons/action/language'
 
 const columns = [
   {row: 'index + 1', type: 'char', header: 'no', width: {pc: '5%', mobile: '15px'}, convert: false},
@@ -158,21 +160,22 @@ export default class Home extends Component {
       <div>
         <Drawer
           docked={false}
-          width={120}
           open={this.props.drawer}
           onRequestChange={() => this.props.openCloseDrawer(false)}
         >
           <MenuItem
-            onClick={e => {this.logout(); this.props.openCloseDrawer(false)}}>
-            {dict[this.props.lang].logout}
-          </MenuItem>
-          <MenuItem onClick={e => {this.props.changeLang(dict[this.props.lang].langChange); this.props.openCloseDrawer(false)}}>
-            {dict[this.props.lang].langChangeButton}
-          </MenuItem>
+            onClick={e => {this.logout(); this.props.openCloseDrawer(false)}}
+            primaryText={dict[this.props.lang].logout}
+            leftIcon={<ActionExitToApp />} />      
+          <MenuItem
+            onClick={e => {this.props.changeLang(dict[this.props.lang].langChange); this.props.openCloseDrawer(false)}}
+            primaryText={dict[this.props.lang].langChangeButton}
+            leftIcon={<ActionLanguage />} />
         </Drawer>
         <AppBar
-          title={dict[this.props.lang].homeTitle + this.props.user.lastname + " " + this.props.user.firstname}
-          iconElementRight={rightButtons}
+          title={<div>{dict[this.props.lang].homeTitle}
+            <span style={{ fontSize: 'small', fontWeight: 300, marginRight: 80, bottom: 0, float: 'right' }}>{this.props.user.lastname + " " + this.props.user.firstname}</span></div>}
+          style={styles.appbar}
           onLeftIconButtonClick={() => this.props.openCloseDrawer(true)}
         />
         <Tabs

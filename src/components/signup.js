@@ -10,6 +10,8 @@ import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
+import ActionLaunch from 'material-ui/svg-icons/action/launch'
+import ActionLanguage from 'material-ui/svg-icons/action/language'
 
 export default class Signup extends Component {
   render () {
@@ -40,21 +42,21 @@ export default class Signup extends Component {
       <div>
         <Drawer
           docked={false}
-          width={120}
           open={this.props.drawer}
           onRequestChange={() => this.props.openCloseDrawer(false)}
         >
           <MenuItem
-            onClick={e => {this.props.redirectTo('/login'); this.props.openCloseDrawer(false)}}>
-            {dict[this.props.lang].login}
-          </MenuItem>
-          <MenuItem onClick={e => {this.props.changeLang(dict[this.props.lang].langChange); this.props.openCloseDrawer(false)}}>
-            {dict[this.props.lang].langChangeButton}
-          </MenuItem>
+            onClick={e => {this.props.redirectTo('/login'); this.props.openCloseDrawer(false)}}
+            primaryText={dict[this.props.lang].login}
+            leftIcon={<ActionLaunch />} />
+          <MenuItem
+            onClick={e => {this.props.changeLang(dict[this.props.lang].langChange); this.props.openCloseDrawer(false)}}
+            primaryText={dict[this.props.lang].langChangeButton}
+            leftIcon={<ActionLanguage />} />
         </Drawer>
         <AppBar
           title={dict[this.props.lang].signupTitle}
-          iconElementRight={rightButtons}
+          style={styles.appbar}
           onLeftIconButtonClick={() => this.props.openCloseDrawer(true)}
         />
         <div style={styles.margin20}>

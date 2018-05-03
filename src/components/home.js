@@ -26,12 +26,14 @@ import ActionExitToApp from 'material-ui/svg-icons/action/exit-to-app'
 import ActionLanguage from 'material-ui/svg-icons/action/language'
 
 const columns = [
-  {row: 'index + 1', type: 'char', header: 'no', width: {pc: '5%', mobile: '15px'}, convert: false},
-  {row: 'challenge.challengedate', type: 'date' , header: 'challengeDate', width: {pc: '15%', mobile: '70px'}, convert: false},
-  {row: 'challenge.challengename', type: 'char' , header: 'challengeName', width: {pc: '20%', mobile: '120px'}, convert: false},
-  {row: 'challenge.paymentmethod', type: 'char' , header: 'paymentMethod', width: {pc: '15%', mobile: '100px'}, convert: true},
-  {row: 'challenge.receipt', type: 'char' , header: 'receipt', width: {pc: '15%', mobile: '80px'}, convert: false},
-  {row: 'challenge.comment', type: 'char' , header: 'comment', width: {pc: '30%', mobile: '100px'}, convert: false}
+  {row:  'index + 1',                  type:  'char',  header:  'no',               width: {pc: '5%', mobile: '15px'}},
+  {row:  'challenge.registrationdate', type:  'date' , header:  'registrationdate', width: {pc: '8%', mobile: '70px'}},
+  {row:  'challenge.challengename',    type:  'char' , header:  'challengeName',    width: {pc: '18%', mobile: '120px'}},
+  {row:  'challenge.paymentmethod',    type:  'char' , header:  'paymentMethod',    width: {pc: '15%', mobile: '100px'}, convert: true},
+  {row:  'challenge.receipt',          type:  'char' , header:  'receipt',          width: {pc: '15%', mobile: '80px'}},
+  {row:  'challenge.receiptdate',      type:  'date' , header:  'receiptdate',      width: {pc: '8%', mobile: '80px'}},
+  {row:  'challenge.deliverydate',     type:  'date' , header:  'deliverydate',     width: {pc: '8%', mobile: '80px'}},
+  {row:  'challenge.comment',          type:  'char' , header:  'comment',          width: {pc: '25%', mobile: '100px'}}
 ]
 
 export default class Home extends Component {
@@ -89,8 +91,12 @@ export default class Home extends Component {
     const challengeHeaders = (
       <TableRow>
         {columns.map((column, index) =>
-          <TableHeaderColumn key={index} style={{width: column.width[device]}} className="hidden-xs">{dict[this.props.lang][column.header]}</TableHeaderColumn>
+          <TableHeaderColumn key={index} style={{width: column.width[device]}} className="hidden-xs">
+            {dict[this.props.lang][column.header]}<br />
+            {dict[this.props.lang][column.header2]}
+          </TableHeaderColumn>
         )}
+        {(this.props.challenges.length > 10) ? <TableHeaderColumn key='dummy' style={{width: '1%'}} /> : ''}
       </TableRow>
     )
 
@@ -98,7 +104,8 @@ export default class Home extends Component {
       <TableRow key={index}>
         {columns.map((column, index_c) =>
           <TableRowColumn key={index_c} style={{width: column.width[device]}} className="hidden-xs">
-            {(column.type === 'date') ? this.dateFormat(eval(column.row)) : (column.convert) ? dict[this.props.lang][eval(column.row)] : eval(column.row)}
+            {(column.type === 'date') ? this.dateFormat(eval(column.row)) : (column.convert) ? dict[this.props.lang][eval(column.row)] : eval(column.row)}<br />
+            {(column.type2 === 'date') ? this.dateFormat(eval(column.row2)) : (column.convert2) ? dict[this.props.lang][eval(column.row2)] : eval(column.row2)}
           </TableRowColumn>
         )}
       </TableRow>
@@ -113,9 +120,8 @@ export default class Home extends Component {
       <FlatButton
         label={dict[this.props.lang].register}
         primary={true}
-        keyboardFocused={true}
         onClick={e => this.props.addChallenge(this.props.newchallenge)}
-      />,
+      />
     ]
 
     const updateUserActions = [
@@ -132,7 +138,7 @@ export default class Home extends Component {
       />,
     ]
 
-    const newChallngeDialog = (
+    const newChallengeDialog = (
       <Dialog
         title={dict[this.props.lang].newChallengeDialogTitle}
         actions={newChallengeActions}
@@ -174,7 +180,7 @@ export default class Home extends Component {
         </Drawer>
         <AppBar
           title={<div>{dict[this.props.lang].homeTitle}
-            <span style={{ fontSize: 'small', fontWeight: 300, marginRight: 80, bottom: 0, float: 'right' }}>{this.props.user.lastname + " " + this.props.user.firstname}</span></div>}
+          <span style={{ fontSize: 'small', fontWeight: 300, marginRight: 80, bottom: 0, float: 'right' }}>{this.props.user.lastname + " " + this.props.user.firstname}</span></div>}
           style={styles.appbar}
           onLeftIconButtonClick={() => this.props.openCloseDrawer(true)}
         />
@@ -263,12 +269,12 @@ export default class Home extends Component {
                 <RaisedButton label={dict[this.props.lang].register} primary={true} onClick={e => this.handleOpen()} />
                 <p style={styles.error}>{this.props.msg}</p>
               </div>
-              {newChallngeDialog}
+              {newChallengeDialog}
             </div>
           </Tab>
           <Tab label={dict[this.props.lang].challengeHistory} value="history">
             <div>
-              <Table height="70vh" bodyStyle={tableBodyStyle}>
+              <Table height="60vh" bodyStyle={tableBodyStyle}>
                 <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                   {challengeHeaders}
                 </TableHeader>

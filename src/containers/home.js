@@ -1,8 +1,8 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import Home from '../components/home'
-import { addChallenge, updateUserData, inputUserData, inputChallengeData, loadUser, changeTab, openCloseDialog } from '../actions/home'
-import { changeLang, openCloseDrawer } from '../actions/common'
+import { addChallenge, updateUserData, inputUserData, inputChallengeData, loadUser, changeTab } from '../actions/home'
+import { changeLang, openCloseDialog, openCloseDrawer } from '../actions/common'
 
 function mapStateToProps({ home, common }) {
   return {
@@ -12,7 +12,7 @@ function mapStateToProps({ home, common }) {
     errortext: home.errortext,
     msg: home.msg,
     tab: home.tab,
-    open: home.open,
+    open: common.open,
     lang: common.lang,
     width: common.width,
     drawer: common.drawer

@@ -1,5 +1,6 @@
 import request from 'superagent'
 import { push } from 'react-router-redux'
+import { openCloseDialog } from './common'
 
 export const inputSignupData = ( key, value ) => ({
   type: 'INPUT_SIGNUP_DATA',
@@ -26,7 +27,7 @@ export const signup = (user) => {
         phone: user.phone,
         postal: user.postal,
         address: user.address,
-        comment: user.comment
+        signupdate: (new Date()).toString()
       })
       .end((err, res) => {
         if (err) return
@@ -39,6 +40,7 @@ export const signup = (user) => {
           dispatch(push('/home'))
           return
         }
+        dispatch(openCloseDialog(false))
         dispatch(setMsg(r.msg))
       })
   }

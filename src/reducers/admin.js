@@ -11,8 +11,7 @@ const initialState = {
     firstname_kana: '',
     phone: '',
     postal: '',
-    address: '',
-    comment: ''
+    address: ''
   },
   challenge: {
     challengename: '',
@@ -22,20 +21,28 @@ const initialState = {
     receiptdate: '',
     receiptuser: '',
     receiptmethod: '',
+    amount: '',
     deliverydate: '',
     deliveryuser: '',
     deliverymethod: '',
     collectiondate: '',
     collectionuser: '',
-    comment: ''
+    strapdeliverydate: '',
+    strapdeliveryuser: '',
+    certno: '',
+    certdeliverydate: '',
+    certdeliveryuser: '',
+    comment: '',
+    comment_sok: ''
   },
   filter: {
     name: '',
-    unpaid: false
+    unpaid: false,
+    undelivered: false,
+    uncollected: false
   },
   msg: '',
-  tab: 'users',
-  open: false
+  tab: 'users'
 }
 
 export default function adminReducer(state = initialState, action) {
@@ -64,10 +71,6 @@ export default function adminReducer(state = initialState, action) {
     case 'CHANGE_TAB':
       return Object.assign({}, state, {
         tab: action.payload.tab
-      })
-    case 'OPEN_CLOSE_DIALOG':
-      return Object.assign({}, state, {
-        open: action.payload.open
       })
     case 'SET_ADMIN_MSG':
       return Object.assign({}, state, {

@@ -17,6 +17,7 @@ router.get('/api/signup', (req, res) => {
     const postal = req.query.postal
     const address = req.query.address
     const comment = req.query.comment
+    const signupdate = req.query.signupdate
 
     if (userid === '' || passwd === '' || lastname === '' || firstname === '' || lastname_kana === '' || firstname_kana === ''
         || phone === '' || postal === '' || address === '') {
@@ -28,7 +29,7 @@ router.get('/api/signup', (req, res) => {
         return res.json({status: false, msg: 'The userid already exists'})
       }
 
-      db.addUser(userid, passwd, lastname, firstname, lastname_kana, firstname_kana, phone, postal, address, comment, (token) => {
+      db.addUser(userid, passwd, lastname, firstname, lastname_kana, firstname_kana, phone, postal, address, comment, signupdate, (token) => {
         if (!token) {
           res.json({status: false, msg: 'DB Error'})
         }

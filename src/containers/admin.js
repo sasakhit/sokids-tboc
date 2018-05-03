@@ -1,8 +1,8 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import Admin from '../components/admin'
-import { inputUserData, inputChallengeData, changeFilter, updateAdminData, loadAllUsers, selectRow, changeTab, openCloseDialog } from '../actions/admin'
-import { changeLang, openCloseDrawer } from '../actions/common'
+import { inputUserData, inputChallengeData, changeFilter, updateAdminData, loadAllUsers, selectRow, changeTab } from '../actions/admin'
+import { changeLang, openCloseDialog, openCloseDrawer } from '../actions/common'
 
 function mapStateToProps({ admin, common }) {
   return {
@@ -12,7 +12,7 @@ function mapStateToProps({ admin, common }) {
     filter: admin.filter,
     msg: admin.msg,
     tab: admin.tab,
-    open: admin.open,
+    open: common.open,
     lang: common.lang,
     drawer: common.drawer
   }

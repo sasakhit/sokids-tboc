@@ -10,8 +10,7 @@ const initialState = {
     firstname_kana: '',
     phone: '',
     postal: '',
-    address: '',
-    comment: ''
+    address: ''
   },
   errortext: {
     userid: requiredMessage,

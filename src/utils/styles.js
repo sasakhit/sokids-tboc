@@ -63,6 +63,10 @@ const styles = {
   marginLeft20: {
     marginLeft: 20
   },
+  inlineCheckbox: {
+    marginLeft: 20,
+    width: 120
+  },
   customColumn20: {
     width: '20%'
   },

@@ -25,31 +25,40 @@ import Checkbox from 'material-ui/Checkbox'
 import Drawer from 'material-ui/Drawer'
 import ActionExitToApp from 'material-ui/svg-icons/action/exit-to-app'
 import ActionLanguage from 'material-ui/svg-icons/action/language'
+import Subheader from 'material-ui/Subheader'
 
 const columns = [
-  {row:  'user.userid',              type:  'char',  header:  'userid',         width_usr: '15%', width_cha: '0',     width_fin : '0'},
-  {row:  'user.challenges.length',   type:  'char',  header:  'count',          width_usr: '5%',  width_cha: '0',     width_fin : '0'},
-  {row:  'user.lastname',            type:  'char',  header:  'lastname',       width_usr: '8%',  width_cha: '70px',  width_fin : '8%'},
-  {row:  'user.firstname',           type:  'char',  header:  'firstname',      width_usr: '8%',  width_cha: '70px',  width_fin : '8%'},
-  {row:  'user.lastname_kana',       type:  'char',  header:  'lastname_kana',  width_usr: '8%',  width_cha: '0',     width_fin : '0'},
-  {row:  'user.firstname_kana',      type:  'char',  header:  'firstname_kana', width_usr: '8%',  width_cha: '0',     width_fin : '0'},
-  {row:  'user.phone',               type:  'char',  header:  'phone',          width_usr: '10%', width_cha: '0',     width_fin : '0'},
-  {row:  'user.postal',              type:  'char',  header:  'postal',         width_usr: '8%',  width_cha: '0',     width_fin : '0'},
-  {row:  'user.address',             type:  'char',  header:  'address',        width_usr: '20%', width_cha: '0',     width_fin : '0'},
-  {row:  'user.comment',             type:  'char',  header:  'comment',        width_usr: '10%', width_cha: '0',     width_fin : '0'},
-  {row:  'challenge.challengename',  type:  'char',  header:  'challengename',  width_usr: '0',   width_cha: '100px', width_fin : '14%'},
-  {row:  'challenge.challengedate',  type:  'date',  header:  'challengedate',  width_usr: '0',   width_cha: '80px',  width_fin : '9%'},
-  {row:  'challenge.paymentmethod',  type:  'char',  header:  'paymentmethod',  width_usr: '0',   width_cha: '90px',  width_fin : '8%'},
-  {row:  'challenge.receipt',        type:  'char',  header:  'receipt_short',  width_usr: '0',   width_cha: '50px',  width_fin : '8%'},
-  {row:  'challenge.receiptdate',    type:  'date',  header:  'receiptdate',    width_usr: '0',   width_cha: '80px',  width_fin : '9%',
-   row2: 'challenge.receiptuser',    type2: 'char',  header2: 'receiptuser'},
-  {row:  'challenge.receiptmethod',  type:  'char',  header:  'receiptmethod',  width_usr: '0',   width_cha: '0',     width_fin : '0'},
-  {row:  'challenge.deliverydate',   type:  'date',  header:  'deliverydate',   width_usr: '0',   width_cha: '80px',  width_fin : '0',
-   row2: 'challenge.deliveryuser',   type2: 'char',  header2: 'deliveryuser'},
-  {row:  'challenge.deliverymethod', type:  'char',  header:  'deliverymethod', width_usr: '0',   width_cha: '90px',  width_fin : '0'},
-  {row:  'challenge.collectiondate', type:  'date',  header:  'collectiondate', width_usr: '0',   width_cha: '80px',  width_fin : '0',
-   row2: 'challenge.collectionuser', type2: 'char',  header2: 'collectionuser'},
-  {row:  'challenge.comment',        type:  'char',  header:  'comment',        width_usr: '0',   width_cha: '100px', width_fin : '13%'}
+  {row:  'user.userid',                 type:  'char',  header:  'userid',            width_usr: '15%', width_cha: 150, width_bea: '0',   width_fin : '0'},
+  {row:  'user.challenges.length',      type:  'char',  header:  'count',             width_usr: '5%', width_cha: '0',  width_bea: '0',   width_fin : '0'},
+  {row:  'user.signupdate',             type:  'date',  header:  'signupdate',        width_usr: '8%', width_cha: 70,  width_bea: '0',   width_fin : '0'},
+  {row:  'user.lastname',               type:  'char',  header:  'lastname',          width_usr: '7%', width_cha: 50,  width_bea: '6%',  width_fin : '6%'},
+  {row:  'user.firstname',              type:  'char',  header:  'firstname',         width_usr: '7%', width_cha: 50,  width_bea: '6%',  width_fin : '6%'},
+  {row:  'user.lastname_kana',          type:  'char',  header:  'lastname_kana',     width_usr: '7%', width_cha: 50,  width_bea: '0',   width_fin : '0'},
+  {row:  'user.firstname_kana',         type:  'char',  header:  'firstname_kana',    width_usr: '7%', width_cha: 50,  width_bea: '0',   width_fin : '0'},
+  {row:  'user.phone',                  type:  'char',  header:  'phone',             width_usr: '10%', width_cha: 90, width_bea: '0',   width_fin : '0'},
+  {row:  'user.postal',                 type:  'char',  header:  'postal',            width_usr: '24%', width_cha: 200, width_bea: '0',   width_fin : '0',
+   row2: 'user.address',                type2: 'char',  header2: 'address'},
+  {row:  'user.challenges.indexOf(challenge) + 1', type:  'char',  header:  'no',     width_usr: '0', width_cha: 40,   width_bea: '4%',  width_fin : '4%'},
+  {row:  'challenge.registrationdate',  type:  'date',  header:  'registrationdate',  width_usr: '0', width_cha: 70,   width_bea: '8%',  width_fin : '8%'},
+  {row:  'challenge.challengename',     type:  'char',  header:  'challengename',     width_usr: '0', width_cha: 100,   width_bea: '10%', width_fin : '13%',
+   row2: 'challenge.challengedate',     type2: 'date',  header2: 'challengedate'},
+  {row:  'challenge.paymentmethod',     type:  'char',  header:  'paymentmethod',     width_usr: '0', width_cha: 90,   width_bea: '0',   width_fin : '10%', convert: true,
+   row2:  'challenge.receipt',          type2: 'char',  header2: 'receipt_short'},
+  {row:  'challenge.receiptdate',       type:  'date',  header:  'receiptdate',       width_usr: '0', width_cha: 70,   width_bea: '8%',  width_fin : '8%',
+   row2: 'challenge.receiptuser',       type2: 'char',  header2: 'receiptuser'},
+  {row:  'challenge.amount',            type:  'char',  header:  'amount',            width_usr: '0', width_cha: 60,   width_bea: '0',   width_fin : '6%'},
+  {row:  'challenge.deliverydate',      type:  'date',  header:  'deliverydate',      width_usr: '0', width_cha: 70,   width_bea: '8%',  width_fin : '0',
+   row2: 'challenge.deliveryuser',      type2: 'char',  header2: 'deliveryuser'},
+  {row:  'challenge.deliverymethod',    type:  'char',  header:  'deliverymethod',    width_usr: '0', width_cha: 70,   width_bea: '9%',  width_fin : '0'},
+  {row:  'challenge.collectiondate',    type:  'date',  header:  'collectiondate',    width_usr: '0', width_cha: 70,   width_bea: '8%',  width_fin : '0',
+   row2: 'challenge.collectionuser',    type2: 'char',  header2: 'collectionuser'},
+  {row:  'challenge.strapdeliverydate', type:  'date',  header:  'strapdeliverydate', width_usr: '0', width_cha: 80,   width_bea: '8%',  width_fin : '0',
+   row2: 'challenge.strapdeliveryuser', type2: 'char',  header2: 'strapdeliveryuser'},
+  {row:  'challenge.certno',            type:  'char',  header:  'certno',            width_usr: '0', width_cha: 80,   width_bea: '0',   width_fin : '8%'},
+  {row:  'challenge.certdeliverydate',  type:  'date',  header:  'certdeliverydate',  width_usr: '0', width_cha: 80,   width_bea: '0',   width_fin : '8%',
+   row2: 'challenge.certdeliveryuser',  type2: 'char',  header2: 'certdeliveryuser'},
+  {row:  'challenge.comment',           type:  'char',  header:  'comment',           width_usr: '0', width_cha: 150,   width_bea: '15%', width_fin : '20%',
+   row2: 'challenge.comment_sok',       type2: 'char',  header2: 'comment_sok'}
 ]
 
 export default class Admin extends Component {
@@ -101,58 +110,93 @@ export default class Admin extends Component {
     return [d.getFullYear(), this.zeroFill(d.getMonth() + 1), this.zeroFill(d.getDate())].join( '-' )
   }
 
+  yearFormat (date) {
+    return (date) ? new Date(date).getFullYear() : '1900'
+  }
+
+  monthFormat (date) {
+    return this.zeroFill(((date) ? new Date(date).getMonth() : 0) + 1)
+  }
+
   render () {
     const tabChanged = (value) => {
       this.props.changeTab(value)
     }
 
+    const filteredUsers = this.props.users.filter(user => user.lastname.indexOf(this.props.filter.name) > -1
+                                               || user.firstname.indexOf(this.props.filter.name) > -1
+                                               || user.lastname_kana.indexOf(this.props.filter.name) > -1
+                                               || user.firstname_kana.indexOf(this.props.filter.name) > -1)
+
     const userHeaders = (
       <TableRow>
         {columns.filter(column => column.width_usr !== '0').map((column, index) =>
           <TableHeaderColumn key={index} style={{width: column.width_usr}}>
-            {dict[this.props.lang][column.header]}
+            {dict[this.props.lang][column.header]}<br />
+            {dict[this.props.lang][column.header2]}
           </TableHeaderColumn>
         )}
-        <TableHeaderColumn key='dummy' style={{width: '1%'}} />
+        {(filteredUsers.length > 10) ? <TableHeaderColumn key='dummy' style={{width: '1%'}} /> : ''}
       </TableRow>
     )
 
-    const users = this.props.users.map((user, index) =>
-      <TableRow key={index}>
-        {columns.filter(column => column.width_usr !== '0').map((column, index_c) =>
-          <TableRowColumn key={index_c} style={{width: column.width_usr}} data-user-id={user._id}>
-            {(column.type === 'date') ? this.dateFormat(eval(column.row)) : eval(column.row)}
-          </TableRowColumn>
-        )}
-      </TableRow>
+    const users = (
+      filteredUsers.map((user, index) =>
+        <TableRow key={index}>
+          {columns.filter(column => column.width_usr !== '0').map((column, index_c) =>
+            <TableRowColumn key={index_c} style={{width: column.width_usr}} data-user-id={user._id}>
+              {(column.type === 'date') ? this.dateFormat(eval(column.row)) : eval(column.row)}<br />
+              {(column.type2 === 'date') ? this.dateFormat(eval(column.row2)) : eval(column.row2)}
+            </TableRowColumn>
+          )}
+        </TableRow>
+      )
     )
 
     const userColumns = {
       'user': columns.filter(column => column.width_usr !== '0' && column.row.split('.').length === 2)
-                      .map(column => column.row.split('.')[1])
-                      .concat(['passwd'])
+                     .map(column => (column.row2) ? [column.row.split('.')[1], column.row2.split('.')[1]] : column.row.split('.')[1])
+                     .concat(['passwd'])
     }
 
     const challengeHeaders = (
       <TableRow>
         {columns.filter(column => column.width_cha !== '0').map((column, index) =>
-          <TableHeaderColumn key={index} style={{width: column.width_cha}}>
-            {dict[this.props.lang][column.header]}<br />
-            {dict[this.props.lang][column.header2]}
-          </TableHeaderColumn>
+          (column.header2) ?
+            [
+              <TableHeaderColumn key={index} style={{width: column.width_cha}}>
+                {dict[this.props.lang][column.header]}
+              </TableHeaderColumn>,
+              <TableHeaderColumn key={(index + 1) * -1} style={{width: column.width_cha}}>
+                {dict[this.props.lang][column.header2]}
+              </TableHeaderColumn>
+            ]
+          :
+            <TableHeaderColumn key={index} style={{width: column.width_cha}}>
+              {dict[this.props.lang][column.header]}
+            </TableHeaderColumn>
         )}
       </TableRow>
     )
 
     const challenges = (
-      this.props.users.filter(user => user.lastname.indexOf(this.props.filter.name) > -1 || user.firstname.indexOf(this.props.filter.name) > -1).map(user =>
-        user.challenges.map((challenge, index) =>
+      filteredUsers.map(user =>
+        user.challenges.filter(challenge => true).reverse().map((challenge, index) =>
           <TableRow key={index}>
             {columns.filter(column => column.width_cha !== '0').map((column, index_c) =>
-              <TableRowColumn key={index_c} style={{width: column.width_cha}} data-user-id={user._id} data-challenge-id={challenge._id}>
-                {(column.type === 'date') ? this.dateFormat(eval(column.row)) : eval(column.row)}<br />
-                {(column.type2 === 'date') ? this.dateFormat(eval(column.row2)) : eval(column.row2)}
-              </TableRowColumn>
+              (column.row2) ?
+                [
+                  <TableRowColumn key={index_c} style={{width: column.width_cha}} data-user-id={user._id} data-challenge-id={challenge._id}>
+                    {(column.type === 'date') ? this.dateFormat(eval(column.row)) : (column.convert) ? dict[this.props.lang][eval(column.row)] : eval(column.row)}
+                  </TableRowColumn>,
+                  <TableRowColumn key={index_c} style={{width: column.width_cha}} data-user-id={user._id} data-challenge-id={challenge._id}>
+                    {(column.type2 === 'date') ? this.dateFormat(eval(column.row2)) : (column.convert2) ? dict[this.props.lang][eval(column.row2)] : eval(column.row2)}
+                  </TableRowColumn>
+                ]
+              :
+                <TableRowColumn key={index_c} style={{width: column.width_cha}} data-user-id={user._id} data-challenge-id={challenge._id}>
+                  {(column.type === 'date') ? this.dateFormat(eval(column.row)) : (column.convert) ? dict[this.props.lang][eval(column.row)] : eval(column.row)}
+                </TableRowColumn>
             )}
           </TableRow>
         )
@@ -160,10 +204,64 @@ export default class Admin extends Component {
     )
 
     const challengeColumns = {
-      'user': columns.filter(column => column.row.indexOf('user.') === 0 && column.width_cha !== '0').map(column => column.row.split('.')[1]),
-      'challenge': columns.filter(column => column.row.indexOf('challenge.') === 0 && column.width_cha !== '0')
+      'user': columns.filter(column => column.row.indexOf('user.') === 0 && column.width_cha !== '0'  && column.row.split('.').length === 2)
+                     //.map(column => column.row.split('.')[1]),
+                     .map(column => (column.row2) ? [column.row.split('.')[1], column.row2.split('.')[1]] : column.row.split('.')[1]),
+      'challenge': columns.filter(column => column.row.indexOf('challenge.') === 0 && column.width_cha !== '0'  && column.row.split('.').length === 2)
                           .map(column => (column.row2) ? [column.row.split('.')[1], column.row2.split('.')[1]] : column.row.split('.')[1])
     }
+
+    
+    const beadsFilter = (challenge) => (! this.props.filter.undelivered || ! challenge.deliverydate) && (! this.props.filter.uncollected || ! challenge.collectiondate)
+
+    const filterdChallengesForBeads = (
+      Array.prototype.concat.apply([], filteredUsers.map(user =>
+        user.challenges.filter(challenge => beadsFilter(challenge)))
+      )
+    )
+
+    const beadsHeaders = (
+      <TableRow>
+        {columns.filter(column => column.width_bea !== '0').map((column, index) =>
+          <TableHeaderColumn key={index} style={{width: column.width_bea}}>
+            {dict[this.props.lang][column.header]}<br />
+            {dict[this.props.lang][column.header2]}
+          </TableHeaderColumn>
+        )}
+        {(filterdChallengesForBeads.length > 10) ? <TableHeaderColumn key='dummy' style={{width: '1%'}} /> : ''}
+      </TableRow>
+    )
+
+    const challengesForBeads = (
+      filteredUsers.map(user =>
+        user.challenges.filter(challenge => beadsFilter(challenge)).reverse().map((challenge, index) =>
+          <TableRow key={index}>
+            {columns.filter(column => column.width_bea !== '0').map((column, index_c) =>
+              <TableRowColumn key={index_c} style={{width: column.width_bea}} data-user-id={user._id} data-challenge-id={challenge._id}>
+                {(column.type === 'date') ? this.dateFormat(eval(column.row)) : (column.convert) ? dict[this.props.lang][eval(column.row)] : eval(column.row)}<br />
+                {(column.type2 === 'date') ? this.dateFormat(eval(column.row2)) : (column.convert2) ? dict[this.props.lang][eval(column.row2)] : eval(column.row2)}
+              </TableRowColumn>
+            )}
+          </TableRow>
+        )
+      )
+    )
+
+    const beadsColumns = {
+      'user': columns.filter(column => column.row.indexOf('user.') === 0 && column.width_bea !== '0'  && column.row.split('.').length === 2)
+                     //.map(column => column.row.split('.')[1]),
+                     .map(column => (column.row2) ? [column.row.split('.')[1], column.row2.split('.')[1]] : column.row.split('.')[1]),
+      'challenge': columns.filter(column => column.row.indexOf('challenge.') === 0 && column.width_bea !== '0'  && column.row.split('.').length === 2)
+                          .map(column => (column.row2) ? [column.row.split('.')[1], column.row2.split('.')[1]] : column.row.split('.')[1])
+    }
+
+    const financeFilter = (challenge) => (! this.props.filter.unpaid || ! challenge.receiptdate)
+
+    const filterdChallengesForFinance = (
+      Array.prototype.concat.apply([], filteredUsers.map(user =>
+        user.challenges.filter(challenge => financeFilter(challenge)))
+      )
+    )
 
     const financeHeaders = (
       <TableRow>
@@ -173,18 +271,18 @@ export default class Admin extends Component {
             {dict[this.props.lang][column.header2]}
           </TableHeaderColumn>
         )}
-        <TableHeaderColumn key='dummy' style={{width: '1%'}} />
+        {(filterdChallengesForFinance.length > 10) ? <TableHeaderColumn key='dummy' style={{width: '1%'}} /> : ''}
       </TableRow>
     )
 
     const challengesForFinance = (
-      this.props.users.filter(user => user.lastname.indexOf(this.props.filter.name) > -1 || user.firstname.indexOf(this.props.filter.name) > -1).map(user =>
-        user.challenges.filter(challenge => ! this.props.filter.unpaid || ! challenge.receiptdate).map((challenge, index) =>
+      filteredUsers.map(user =>
+        user.challenges.filter(challenge => financeFilter(challenge)).reverse().map((challenge, index) =>
           <TableRow key={index}>
             {columns.filter(column => column.width_fin !== '0').map((column, index_c) =>
               <TableRowColumn key={index_c} style={{width: column.width_fin}} data-user-id={user._id} data-challenge-id={challenge._id}>
-                {(column.type === 'date') ? this.dateFormat(eval(column.row)) : eval(column.row)}<br />
-                {(column.type2 === 'date') ? this.dateFormat(eval(column.row2)) : eval(column.row2)}
+                {(column.type === 'date') ? this.dateFormat(eval(column.row)) : (column.convert) ? dict[this.props.lang][eval(column.row)] : eval(column.row)}<br />
+                {(column.type2 === 'date') ? this.dateFormat(eval(column.row2)) : (column.convert2) ? dict[this.props.lang][eval(column.row2)] : eval(column.row2)}
               </TableRowColumn>
             )}
           </TableRow>
@@ -193,10 +291,92 @@ export default class Admin extends Component {
     )
 
     const financeColumns = {
-      'user': columns.filter(column => column.row.indexOf('user.') === 0 && column.width_fin !== '0').map(column => column.row.split('.')[1]),
-      'challenge': columns.filter(column => column.row.indexOf('challenge.') === 0 && column.width_fin !== '0')
+      'user': columns.filter(column => column.row.indexOf('user.') === 0 && column.width_fin !== '0' && column.row.split('.').length === 2)
+                     .map(column => (column.row2) ? [column.row.split('.')[1], column.row2.split('.')[1]] : column.row.split('.')[1]),
+      'challenge': columns.filter(column => column.row.indexOf('challenge.') === 0 && column.width_fin !== '0' && column.row.split('.').length === 2)
                           .map(column => (column.row2) ? [column.row.split('.')[1], column.row2.split('.')[1]] : column.row.split('.')[1])
     }
+
+    const statsColumns = [
+      {row:  'year', width: '8%'},
+      {row:  'month', width: '8%'},
+      {row:  'count_signupUser', width: '15%'},
+      {row:  'count_challengeUser', width: '15%'},
+      {row:  'count_challenge', width: '15%'},
+      {row:  'amount', width: '15%'}
+    ]
+
+    const stats = (type) => (
+      this.props.users.reduce((result_u, current_u) => {
+        let element_u = result_u.find((previous) =>
+          previous.year === this.yearFormat(current_u.signupdate)
+          && (previous.month === ((type === 'year') ? '' : this.monthFormat(current_u.signupdate)))
+        )
+        if (element_u) {
+          element_u.count_signupUser++
+        } else {
+          result_u.push({
+            year: this.yearFormat(current_u.signupdate),
+            month: (type === 'year') ? '' : this.monthFormat(current_u.signupdate),
+            count_signupUser: 1,
+            previous_userid: null,
+            count_challengeUser: 0,
+            count_challenge: 0,
+            amount: 0
+          })
+        }
+
+        current_u.challenges.reduce((result_c, current_c) => {
+          let element = result_c.find((previous) =>
+            previous.year === this.yearFormat(current_c.registrationdate)
+            && (previous.month === ((type === 'year') ? '' : this.monthFormat(current_c.registrationdate)))
+          )
+          if (element) {
+            if (element.previous_userid !== current_u.userid) {
+              element.count_challengeUser++
+              element.previous_userid = current_u.userid
+            }
+            element.count_challenge++
+            element.amount += Number((current_c.amount) ? current_c.amount : 0)
+          } else {
+            result_c.push({
+              year: this.yearFormat(current_c.registrationdate),
+              month: (type === 'year') ? '' : this.monthFormat(current_c.registrationdate),
+              count_signupUser: 0,
+              previous_userid: current_u.userid,
+              count_challengeUser: 1,
+              count_challenge: 1,
+              amount: Number((current_c.amount) ? current_c.amount : 0)
+            })
+          }
+          return result_c
+        }, result_u)
+        return result_u
+      }, []).sort((a, b) => {
+        if (a.year + a.month > b.year + b.month) return -1
+        if (a.year + a.month < b.year + b.month) return 1
+        return 0
+      }).map((row, index) =>
+        <TableRow key={index}>
+          {statsColumns.filter((column) => (type === 'year' && column.row === 'month') ? false : true).map((column, index_c) =>
+          <TableRowColumn key={index_c} style={{width: column.width}}>
+            {row[column.row]}
+          </TableRowColumn>
+        )}
+        </TableRow>
+      )
+    )
+
+    const statsHeaders = (type) => (
+      <TableRow>
+        {statsColumns.filter((column) => (type === 'year' && column.row === 'month') ? false : true).map((column, index) =>
+          <TableHeaderColumn key={index} style={{width: column.width}}>
+            {dict[this.props.lang][column.row]}
+          </TableHeaderColumn>
+        )}
+        {(stats(type).length > 10) ? <TableHeaderColumn key='dummy' style={{width: '2%'}} /> : ''}
+      </TableRow>
+    )
 
     const actions = (updateColumns) => [
       <RaisedButton
@@ -239,7 +419,15 @@ export default class Admin extends Component {
           value={this.props.user.passwd}
           underlineStyle={styles.underlineStyle}
           onChange={e => this.props.inputUserData(e.target.name, e.target.value)}
-        /><br />
+        />
+        <DatePicker
+          name='signupdate'
+          floatingLabelText={dict[this.props.lang].signupdate}
+          value={(! this.props.user.signupdate) ? null : new Date(this.props.user.signupdate)}
+          mode="landscape"
+          underlineStyle={styles.underlineStyle}
+          onChange={(e, v) => this.props.inputUserData("signupdate", v.toString())}
+        />
         <TextField
           name='lastname'
           floatingLabelText={dict[this.props.lang].lastname}
@@ -305,13 +493,13 @@ export default class Admin extends Component {
       </Dialog>
     )
 
-    const updateChallengeDialog = (
+    const updateBeadsDialog = (
       <Dialog
-        title={dict[this.props.lang].updateChallengeFields}
+        title={dict[this.props.lang].updateBeadsFields}
         titleStyle={styles.dialogTitle}
-        actions={actions(challengeColumns)}
+        actions={actions(beadsColumns)}
         modal={false}
-        open={this.props.open && this.props.tab === 'challenges'}
+        open={this.props.open && this.props.tab === 'beads'}
         autoScrollBodyContent={true}
         onRequestClose={e => this.handleClose()}
       >
@@ -330,6 +518,14 @@ export default class Admin extends Component {
           underlineStyle={styles.underlineStyle}
           disabled={true}
           style={styles.nameField}
+        />
+        <DatePicker
+          name='registrationdate'
+          floatingLabelText={dict[this.props.lang].registrationdate}
+          value={(! this.props.challenge.registrationdate) ? null : new Date(this.props.challenge.registrationdate)}
+          mode="landscape"
+          underlineStyle={styles.underlineStyle}
+          onChange={(e, v) => this.props.inputChallengeData("registrationdate", v.toString())}
         />
         <div style={styles.flexRow}>
           <TextField
@@ -392,10 +588,28 @@ export default class Admin extends Component {
             onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
           />
         </div>
+        <div style={styles.flexRow}>
+          <DatePicker
+            name='strapdeliverydate'
+            floatingLabelText={dict[this.props.lang].strapdeliverydate}
+            value={(! this.props.challenge.strapdeliverydate) ? null : new Date(this.props.challenge.strapdeliverydate)}
+            mode="landscape"
+            underlineStyle={styles.underlineStyle}
+            onChange={(e, v) => this.props.inputChallengeData("strapdeliverydate", v.toString())}
+            style={styles.marginRight20}
+          />
+          <TextField
+            name='strapdeliveryuser'
+            floatingLabelText={dict[this.props.lang].strapdeliveryuser}
+            value={this.props.challenge.strapdeliveryuser}
+            underlineStyle={styles.underlineStyle}
+            onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
+          />
+        </div>
         <TextField
-          name='comment'
-          floatingLabelText={dict[this.props.lang].comment}
-          value={this.props.challenge.comment}
+          name='comment_sok'
+          floatingLabelText={dict[this.props.lang].comment_sok}
+          value={this.props.challenge.comment_sok}
           fullWidth={true}
           underlineStyle={styles.underlineStyle}
           onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
@@ -474,9 +688,42 @@ export default class Admin extends Component {
           />
         </div>
         <TextField
-          name='comment'
-          floatingLabelText={dict[this.props.lang].comment}
-          value={this.props.challenge.comment}
+          name='amount'
+          floatingLabelText={dict[this.props.lang].amount}
+          value={this.props.challenge.amount}
+          type='number'
+          underlineStyle={styles.underlineStyle}
+          onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
+        /><br />
+        <TextField
+          name='certno'
+          floatingLabelText={dict[this.props.lang].certno}
+          value={this.props.challenge.certno}
+          underlineStyle={styles.underlineStyle}
+          onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
+        />
+        <div style={styles.flexRow}>
+          <DatePicker
+            name='certdeliverydate'
+            floatingLabelText={dict[this.props.lang].certdeliverydate}
+            value={(! this.props.challenge.certdeliverydate) ? null : new Date(this.props.challenge.certdeliverydate)}
+            mode="landscape"
+            underlineStyle={styles.underlineStyle}
+            onChange={(e, v) => this.props.inputChallengeData("certdeliverydate", v.toString())}
+            style={styles.marginRight20}
+          />
+          <TextField
+            name='certdeliveryuser'
+            floatingLabelText={dict[this.props.lang].certdeliveryuser}
+            value={this.props.challenge.certdeliveryuser}
+            underlineStyle={styles.underlineStyle}
+            onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
+          />
+        </div>
+        <TextField
+          name='comment_sok'
+          floatingLabelText={dict[this.props.lang].comment_sok}
+          value={this.props.challenge.comment_sok}
           fullWidth={true}
           underlineStyle={styles.underlineStyle}
           onChange={e => this.props.inputChallengeData(e.target.name, e.target.value)}
@@ -511,7 +758,17 @@ export default class Admin extends Component {
         >
           <Tab label={dict[this.props.lang].users} value="users">
             <div>
-              <Table height="70vh" onCellClick={(rowNumber, columnId, e) => this.cellClick(rowNumber, columnId, e)}>
+              <div style={{display: 'flex', flexDirection: 'row', alignItems: 'baseline'}}>
+                <TextField
+                  name='name'
+                  floatingLabelText={dict[this.props.lang].nameFilter}
+                  value={this.props.filter.name}
+                  underlineStyle={styles.underlineStyle}
+                  onChange={e => this.props.changeFilter(e.target.name, e.target.value)}
+                  style={styles.marginLeft20}
+                />
+              </div>
+              <Table height="60vh" onCellClick={(rowNumber, columnId, e) => this.cellClick(rowNumber, columnId, e)}>
                 <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                   {userHeaders}
                 </TableHeader>
@@ -530,14 +787,14 @@ export default class Admin extends Component {
               <div style={{display: 'flex', flexDirection: 'row', alignItems: 'baseline'}}>
                 <TextField
                   name='name'
-                  floatingLabelText="Filter: Name"
+                  floatingLabelText={dict[this.props.lang].nameFilter}
                   value={this.props.filter.name}
                   underlineStyle={styles.underlineStyle}
                   onChange={e => this.props.changeFilter(e.target.name, e.target.value)}
                   style={styles.marginLeft20}
                 />
               </div>
-              <Table height="70vh" bodyStyle={{overflow:'visible'}} onCellClick={(rowNumber, columnId, e) => this.cellClick(rowNumber, columnId, e)}>
+              <Table height="60vh" bodyStyle={{overflow:'visible'}}>
                 <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                   {challengeHeaders}
                 </TableHeader>
@@ -545,7 +802,41 @@ export default class Admin extends Component {
                   {challenges}
                 </TableBody>
               </Table>
-              {updateChallengeDialog}
+            </div>
+          </Tab>
+          <Tab label={dict[this.props.lang].beads} value="beads">
+            <div>
+              <div style={{display: 'flex', flexDirection: 'row', alignItems: 'baseline'}}>
+                <TextField
+                  name='name'
+                  floatingLabelText={dict[this.props.lang].nameFilter}
+                  value={this.props.filter.name}
+                  underlineStyle={styles.underlineStyle}
+                  onChange={e => this.props.changeFilter(e.target.name, e.target.value)}
+                  style={styles.marginLeft20}
+                />
+                <Checkbox
+                  label={dict[this.props.lang].undelivered}
+                  checked={this.props.filter.undelivered}
+                  onCheck={(e, v) => this.props.changeFilter('undelivered', v)}
+                  style={styles.inlineCheckbox}
+                />
+                <Checkbox
+                  label={dict[this.props.lang].uncollected}
+                  checked={this.props.filter.uncollected}
+                  onCheck={(e, v) => this.props.changeFilter('uncollected', v)}
+                  style={styles.inlineCheckbox}
+                />
+              </div>
+              <Table height="60vh" onCellClick={(rowNumber, columnId, e) => this.cellClick(rowNumber, columnId, e)}>
+                <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+                  {beadsHeaders}
+                </TableHeader>
+                <TableBody displayRowCheckbox={false}>
+                  {challengesForBeads}
+                </TableBody>
+              </Table>
+              {updateBeadsDialog}
             </div>
           </Tab>
           <Tab label={dict[this.props.lang].finance} value="finance">
@@ -553,31 +844,57 @@ export default class Admin extends Component {
               <div style={{display: 'flex', flexDirection: 'row', alignItems: 'baseline'}}>
                 <TextField
                   name='name'
-                  floatingLabelText="Filter: Name"
+                  floatingLabelText={dict[this.props.lang].nameFilter}
                   value={this.props.filter.name}
                   underlineStyle={styles.underlineStyle}
                   onChange={e => this.props.changeFilter(e.target.name, e.target.value)}
                   style={styles.marginLeft20}
                 />
                 <Checkbox
-                  label="Unpaid"
+                  label={dict[this.props.lang].unpaid}
                   checked={this.props.filter.unpaid}
                   onCheck={(e, v) => this.props.changeFilter('unpaid', v)}
-                  style={styles.marginLeft20}
+                  style={styles.inlineCheckbox}
                 />
               </div>
-              <Table height="70vh" onCellClick={(rowNumber, columnId, e) => this.cellClick(rowNumber, columnId, e)}>
-                <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                  {financeHeaders}
-                </TableHeader>
-                <TableBody displayRowCheckbox={false}>
-                  {challengesForFinance}
-                </TableBody>
-              </Table>
+                <Table height="60vh" onCellClick={(rowNumber, columnId, e) => this.cellClick(rowNumber, columnId, e)}>
+                  <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+                    {financeHeaders}
+                  </TableHeader>
+                  <TableBody displayRowCheckbox={false}>
+                    {challengesForFinance}
+                  </TableBody>
+                </Table>
               <div style={styles.margin20}>
                 <p style={styles.error}>{this.props.msg}</p>
               </div>
               {updateFinanceDialog}
+            </div>
+          </Tab>
+          <Tab label={dict[this.props.lang].stats} value="stats">
+            <div style={styles.flexRow}>
+              <div style={styles.marginRight20}>
+                <Subheader>{dict[this.props.lang].byYear}</Subheader>
+                <Table height="65vh">
+                  <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+                    {statsHeaders('year')}
+                  </TableHeader>
+                  <TableBody displayRowCheckbox={false}>
+                    {stats('year')}
+                  </TableBody>
+                </Table>
+                </div>
+              <div>
+                <Subheader>{dict[this.props.lang].byMonth}</Subheader>
+                <Table height="65vh">
+                  <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+                    {statsHeaders('month')}
+                  </TableHeader>
+                  <TableBody displayRowCheckbox={false}>
+                    {stats('month')}
+                  </TableBody>
+                </Table>
+              </div>
             </div>
           </Tab>
         </Tabs>

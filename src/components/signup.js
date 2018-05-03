@@ -9,11 +9,20 @@ import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import Drawer from 'material-ui/Drawer'
+import Dialog from 'material-ui/Dialog'
 import MenuItem from 'material-ui/MenuItem'
 import ActionLaunch from 'material-ui/svg-icons/action/launch'
 import ActionLanguage from 'material-ui/svg-icons/action/language'
 
 export default class Signup extends Component {
+  handleOpen () {
+    this.props.openCloseDialog(true)
+  }
+
+  handleClose () {
+    this.props.openCloseDialog(false)
+  }
+
   render () {
     const rightButtons = (
       <FlatButton label={dict[this.props.lang].langChangeButton} onClick={e => this.props.changeLang(dict[this.props.lang].langChange)} />
@@ -37,6 +46,31 @@ export default class Signup extends Component {
           break
       }
     }
+
+    const signupActions = [
+      <FlatButton
+        label={dict[this.props.lang].cancel}
+        primary={true}
+        onClick={e => this.handleClose()}
+      />,
+      <FlatButton
+        label={dict[this.props.lang].register}
+        primary={true}
+        onClick={e => this.props.signup(this.props.user)}
+      />
+    ]
+
+    const signupDialog = (
+      <Dialog
+        title={dict[this.props.lang].signupDialogTitle}
+        actions={signupActions}
+        modal={false}
+        open={this.props.open}
+        onRequestClose={e => this.handleClose()}
+      >
+        {dict[this.props.lang].signupDialogMessage}
+      </Dialog>
+    )
 
     return (
       <div>
@@ -147,21 +181,13 @@ export default class Signup extends Component {
               fullWidth={true}
               onChange={e => this.props.inputSignupData(e.target.name, e.target.value)}
             />
-          </div><br />
-          <div style={styles.flexRow}>
-            <TextField
-              {...properties.textFieldProps}
-              name='comment'
-              floatingLabelText={dict[this.props.lang].comment}
-              fullWidth={true}
-              onChange={e => this.props.inputSignupData(e.target.name, e.target.value)}
-            />
           </div>
         </div>
         <div style={styles.margin20}>
-          <RaisedButton label={dict[this.props.lang].signup} primary={true} onClick={e => this.props.signup(this.props.user)} />
+          <RaisedButton label={dict[this.props.lang].signup} primary={true} onClick={e => this.handleOpen()} />
           <div style={styles.error}>{msg(this.props.msg)}</div>
         </div>
+        {signupDialog}
       </div>
     )
   }

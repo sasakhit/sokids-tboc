@@ -5,18 +5,19 @@ export const changeLang = ( lang ) => ({
   payload: { lang }
 })
 
-export const resizeScreen = ( width ) => {
-  return {
+export const resizeScreen = ( width ) => ({
     type: 'RESIZE_SCREEN',
     payload: { width }
-  }
-}
+})
 
-export const openCloseDrawer = ( drawer ) => {
-  return {
+export const openCloseDialog = ( open ) => ({
+  type: 'OPEN_CLOSE_DIALOG',
+  payload: { open }
+})
+
+export const openCloseDrawer = ( drawer ) => ({
     type: 'OPEN_CLOSE_DRAWER',
     payload: { drawer }
-  }
-}
+})
 
 

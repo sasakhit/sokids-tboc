@@ -1,6 +1,7 @@
 const initialState = {
   lang: 'ja_jp',
   width: typeof window === 'object' ? window.innerWidth : null,
+  open: false,
   drawer: false
 }
 
@@ -13,6 +14,10 @@ export default function commonReducer(state = initialState, action) {
     case 'RESIZE_SCREEN':
       return Object.assign({}, state, {
         width: action.payload.width,
+      })
+    case 'OPEN_CLOSE_DIALOG':
+      return Object.assign({}, state, {
+        open: action.payload.open
       })
     case 'OPEN_CLOSE_DRAWER':
       return Object.assign({}, state, {

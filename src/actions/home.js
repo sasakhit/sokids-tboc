@@ -1,5 +1,6 @@
 import request from 'superagent'
 import { push } from 'react-router-redux'
+import { openCloseDialog } from './common'
 
 export const inputUserData = ( key, value ) => ({
   type: 'INPUT_USER_DATA',
@@ -24,11 +25,6 @@ export const setChallenges = ( challenges ) => ({
 export const changeTab = ( tab ) => ({
   type: 'CHANGE_TAB',
   payload: { tab }
-})
-
-export const openCloseDialog = ( open ) => ({
-  type: 'OPEN_CLOSE_DIALOG',
-  payload: { open }
 })
 
 export const setMsg = ( msg ) => ({
@@ -64,6 +60,7 @@ export const loadUser = (userid) => {
 
 export const addChallenge = (newchallenge) => {
   return dispatch => {
+    newchallenge.registrationdate = (new Date()).toString()
     request
       .get('/tboc/api/add_challenge')
       .query({
@@ -77,7 +74,6 @@ export const addChallenge = (newchallenge) => {
           window.alert(res.body.msg)
           return
         }
-        //this.setState({open: false, tab: 'history'})
         dispatch(openCloseDialog(false))
         dispatch(changeTab('history'))
         dispatch(loadUser(window.localStorage.tboc_id))

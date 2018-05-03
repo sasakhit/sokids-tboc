@@ -10,8 +10,7 @@ const initialState = {
     firstname_kana: '',
     phone: '',
     postal: '',
-    address: '',
-    comment: ''
+    address: ''
   },
   challenges: [],
   newchallenge: {
@@ -37,8 +36,7 @@ const initialState = {
     receipt: requiredMessage
   },
   msg: '',
-  tab: 'new',
-  open: false
+  tab: 'new'
 }
 
 export default function homeReducer(state = initialState, action) {
@@ -66,10 +64,6 @@ export default function homeReducer(state = initialState, action) {
     case 'CHANGE_TAB':
       return Object.assign({}, state, {
         tab: action.payload.tab
-      })
-    case 'OPEN_CLOSE_DIALOG':
-      return Object.assign({}, state, {
-        open: action.payload.open
       })
     case 'SET_HOME_MSG':
       return Object.assign({}, state, {

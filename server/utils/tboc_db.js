@@ -20,19 +20,20 @@ const ChallengeSchema = new Schema({
   receipt: String,
   receiptdate: Date,
   receiptuser: String, //new
-  receiptmethod: String,
-  receiptamount: Number, //new
+  //receiptmethod: String,
+  amount: Number, //new
   deliverydate: Date,
   deliverymethod: String,
   deliveryuser: String,
   collectiondate: Date, //new
   collectionuser: String, //new
   strapdeliverydate: Date, //new
-  strapdeliveryuser: Date, //new
-  certificateno: String, //new
-  certificatedeliverydate: Date, //new
-  certificatedeliveryuser: String, //new
-  comment: String
+  strapdeliveryuser: String, //new
+  certno: String, //new
+  certdeliverydate: Date, //new
+  certdeliveryuser: String, //new
+  comment: String,
+  comment_sok: String //new
 }, {minimize: false})
 
 const UserSchema = new Schema({
@@ -46,7 +47,7 @@ const UserSchema = new Schema({
   phone: String,
   postal: String,
   address: String,
-  comment: String,
+  //comment: String,
   signupdate: Date, //new
   challenges: [ChallengeSchema]
 }, {minimize: false});
@@ -86,11 +87,11 @@ function getUserById (_id, callback) {
   })
 }
 
-function addUser (userid, passwd, lastname, firstname, lastname_kana, firstname_kana, phone, postal, address, comment, callback) {
+function addUser (userid, passwd, lastname, firstname, lastname_kana, firstname_kana, phone, postal, address, signupdate, callback) {
   const hash = getHash(passwd)
   const token = getAuthToken(userid)
 
-  const user = new User({userid, hash, token, lastname, firstname, lastname_kana, firstname_kana, phone, postal, address, comment})
+  const user = new User({userid, hash, token, lastname, firstname, lastname_kana, firstname_kana, phone, postal, address, signupdate})
   user.save((err) => {
     if (err) return callback(null)
     callback(token)

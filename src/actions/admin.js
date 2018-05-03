@@ -1,5 +1,6 @@
 import request from 'superagent'
 import { push } from 'react-router-redux'
+import { openCloseDialog } from './common'
 
 export const inputUserData = ( key, value ) => ({
   type: 'INPUT_USER_DATA',
@@ -29,11 +30,6 @@ export const selectRow = ( user, challenge ) => ({
 export const changeTab = ( tab ) => ({
   type: 'CHANGE_TAB',
   payload: { tab }
-})
-
-export const openCloseDialog = ( open ) => ({
-  type: 'OPEN_CLOSE_DIALOG',
-  payload: { open }
 })
 
 export const setMsg = ( msg ) => ({
